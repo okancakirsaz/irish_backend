@@ -12,37 +12,32 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const user_dto_1 = require("./user.dto");
-const user_service_1 = require("./user.service");
-let UserController = class UserController {
+const auth_service_1 = require("./auth.service");
+let AuthController = class AuthController {
     constructor(service) {
         this.service = service;
     }
-    getDeneme() {
-        return this.service.getDeneme();
-    }
-    setNewUser(props) {
-        return props;
+    async signUp(params) {
+        try {
+            return await this.service.signUp(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
     }
 };
-exports.UserController = UserController;
+exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "getDeneme", null);
-__decorate([
-    (0, common_1.Post)("newUser"),
+    (0, common_1.Post)('sign-up'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserDto]),
-    __metadata("design:returntype", user_dto_1.UserDto)
-], UserController.prototype, "setNewUser", null);
-exports.UserController = UserController = __decorate([
-    (0, common_1.Controller)("deneme"),
-    __metadata("design:paramtypes", [user_service_1.UserService])
-], UserController);
-//# sourceMappingURL=user.controller.js.map
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "signUp", null);
+exports.AuthController = AuthController = __decorate([
+    (0, common_1.Controller)('auth'),
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
+], AuthController);
+//# sourceMappingURL=auth.controller.js.map

@@ -6,17 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const user_controller_1 = require("./user.controller");
-const user_service_1 = require("./user.service");
-let UserModule = class UserModule {
+const firebase_init_1 = require("../core/firebase_init");
+const auth_1 = require("@firebase/auth");
+let AuthService = class AuthService {
+    async signUp(userData) {
+        await (0, auth_1.createUserWithEmailAndPassword)(firebase_init_1.FirebaseInit.instance.auth, userData.email, userData.password);
+        userData.token = await firebase_init_1.FirebaseInit.instance.auth.currentUser.getIdToken();
+        return userData;
+    }
 };
-exports.UserModule = UserModule;
-exports.UserModule = UserModule = __decorate([
-    (0, common_1.Module)({
-        providers: [user_service_1.UserService],
-        controllers: [user_controller_1.UserController]
-    })
-], UserModule);
-//# sourceMappingURL=user.module.js.map
+exports.AuthService = AuthService;
+exports.AuthService = AuthService = __decorate([
+    (0, common_1.Injectable)()
+], AuthService);
+//# sourceMappingURL=auth.service.js.map
