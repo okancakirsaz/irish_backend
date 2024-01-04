@@ -11,4 +11,5 @@ export declare class FirebaseInit {
     };
     private app;
     auth: import("@firebase/auth").Auth;
+    storage: import("@firebase/storage").FirebaseStorage;
 }

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FirebaseInit = void 0;
 const app_1 = require("firebase/app");
 const auth_1 = require("@firebase/auth");
+const storage_1 = require("@firebase/storage");
 class FirebaseInit {
     constructor() {
         this.firebaseConfig = {
@@ -16,6 +17,7 @@ class FirebaseInit {
         };
         this.app = (0, app_1.initializeApp)(this.firebaseConfig);
         this.auth = (0, auth_1.getAuth)(this.app);
+        this.storage = (0, storage_1.getStorage)(this.app);
     }
 }
 exports.FirebaseInit = FirebaseInit;

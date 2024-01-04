@@ -1,5 +1,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "@firebase/auth";
+import { getStorage } from "@firebase/storage";
 
 export class FirebaseInit{
     static instance:FirebaseInit = new FirebaseInit();
@@ -16,4 +17,5 @@ export class FirebaseInit{
       };
        private app:FirebaseApp = initializeApp(this.firebaseConfig);
        auth = getAuth(this.app);
+       storage = getStorage(this.app);
 }
