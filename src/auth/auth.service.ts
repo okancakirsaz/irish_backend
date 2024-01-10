@@ -5,7 +5,6 @@ import {FirebaseColumns} from "src/core/enums/firebase_column_enums";
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "@firebase/auth";
 import { LogInRequestDto } from "./dto/log_in_request.dto";
 import { LogInErrorDto } from "./dto/log_in_error.dto";
-import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { ForgotPasswordRequestDto } from "./dto/forgot_password_request.dto";
 import { ForgotPasswordResponseDto } from "./dto/forgot_password_response.dto";
 @Injectable()
