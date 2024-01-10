@@ -1,7 +1,11 @@
 import { AuthService } from './auth.service';
-import { UserDataDto } from "./user_data.dto";
+import { UserDataDto } from "./dto/user_data.dto";
+import { LogInRequestDto } from './dto/log_in_request.dto';
+import { ForgotPasswordRequestDto } from "./dto/forgot_password_request.dto";
 export declare class AuthController {
     private readonly service;
     constructor(service: AuthService);
-    signUp(params: UserDataDto): Promise<any>;
+    signUp(params: UserDataDto): Promise<UserDataDto>;
+    logIn(params: LogInRequestDto): Promise<UserDataDto | import("./dto/log_in_error.dto").LogInErrorDto>;
+    forgotPassword(params: ForgotPasswordRequestDto): Promise<import("./dto/forgot_password_response.dto").ForgotPasswordResponseDto>;
 }

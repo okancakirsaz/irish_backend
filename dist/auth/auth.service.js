@@ -8,13 +8,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
+const user_data_dto_1 = require("./dto/user_data.dto");
 const firebase_init_1 = require("../core/firebase_init");
+const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const auth_1 = require("@firebase/auth");
+const log_in_error_dto_1 = require("./dto/log_in_error.dto");
+const forgot_password_response_dto_1 = require("./dto/forgot_password_response.dto");
 let AuthService = class AuthService {
     async signUp(userData) {
         await (0, auth_1.createUserWithEmailAndPassword)(firebase_init_1.FirebaseInit.instance.auth, userData.email, userData.password);
+        userData.uid = firebase_init_1.FirebaseInit.instance.auth.currentUser.uid;
         userData.token = await firebase_init_1.FirebaseInit.instance.auth.currentUser.getIdToken();
+        userData.password = null;
+        await firebase_init_1.FirebaseInit.instance.setData(userData, firebase_column_enums_1.FirebaseColumns.USERS, firebase_init_1.FirebaseInit.instance.auth.currentUser.uid);
+        await (0, auth_1.signOut)(firebase_init_1.FirebaseInit.instance.auth);
         return userData;
+    }
+    async logIn(params) {
+        try {
+            let user = new user_data_dto_1.UserDataDto();
+            await (0, auth_1.signInWithEmailAndPassword)(firebase_init_1.FirebaseInit.instance.auth, params.email, params.password);
+            const userData = (await firebase_init_1.FirebaseInit.instance.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, firebase_init_1.FirebaseInit.instance.auth.currentUser.uid)).data();
+            user.fromJson(userData);
+            await (0, auth_1.signOut)(firebase_init_1.FirebaseInit.instance.auth);
+            return user;
+        }
+        catch (_) {
+            let errorDto = new log_in_error_dto_1.LogInErrorDto();
+            errorDto.reason = "Geçersiz e-posta veya şifre.";
+            return errorDto;
+        }
+    }
+    async forgotPassword(params) {
+        const response = new forgot_password_response_dto_1.ForgotPasswordResponseDto();
+        response.email = params.email;
+        try {
+            await (0, auth_1.sendPasswordResetEmail)(firebase_init_1.FirebaseInit.instance.auth, params.email);
+            response.isMailSended = true;
+            response.reason = null;
+        }
+        catch (_) {
+            response.isMailSended = false;
+            response.reason = "Geçersiz e-posta adresi";
+        }
+        return response;
     }
 };
 exports.AuthService = AuthService;
