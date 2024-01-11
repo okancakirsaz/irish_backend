@@ -4,7 +4,6 @@ import { FirebaseInit } from "src/core/firebase_init";
 import {FirebaseColumns} from "src/core/enums/firebase_column_enums";
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "@firebase/auth";
 import { LogInRequestDto } from "./dto/log_in_request.dto";
-import { LogInErrorDto } from "./dto/log_in_error.dto";
 import { ForgotPasswordRequestDto } from "./dto/forgot_password_request.dto";
 import { ForgotPasswordResponseDto } from "./dto/forgot_password_response.dto";
 @Injectable()
@@ -23,7 +22,7 @@ export class AuthService {
        return userData;
   }
 
-  async logIn(params:LogInRequestDto):Promise<UserDataDto|LogInErrorDto>{
+  async logIn(params:LogInRequestDto):Promise<UserDataDto>{
     try{
       let user:UserDataDto=new UserDataDto();
       await signInWithEmailAndPassword(FirebaseInit.instance.auth,params.email,params.password);
@@ -33,9 +32,7 @@ export class AuthService {
       return user;
     }
     catch(_){
-      let errorDto:LogInErrorDto= new LogInErrorDto();
-      errorDto.reason="Geçersiz e-posta veya şifre."
-      return errorDto;
+      return null;
     }
   }
 

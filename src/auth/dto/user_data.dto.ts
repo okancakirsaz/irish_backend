@@ -1,3 +1,5 @@
+import { PostDto } from "src/community/dto/post.dto"
+
 export class UserDataDto{
     name:string
     email:string
@@ -7,8 +9,7 @@ export class UserDataDto{
     uid:string
     profileImage?:string
     phoneNumber:string
-    //TODO: Post DTO here
-    posts:Array<any>
+    posts:Array<PostDto>
     //TODO: Scores DTO here
     scores:Array<any>
     //TODO: Favorite foods DTO here
@@ -25,5 +26,20 @@ export class UserDataDto{
         this.posts=json["posts"];
         this.scores=json["scores"];
         this.favoriteFoods=json["favoriteFoods"];
+    }
+
+    toJson():Record<string,any>{
+        return {
+            'name':this.name,
+            'email':this.email,
+            'token':this.token,
+            'gender':this.gender,
+            'uid':this.uid,
+            'profileImage':this.profileImage,
+            'phoneNumber':this.phoneNumber,
+            'posts':this.posts,
+            'scores':this.scores,
+            'favoriteFoods':this.favoriteFoods
+        }
     }
 }

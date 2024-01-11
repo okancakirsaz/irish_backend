@@ -1,3 +1,4 @@
+import { PostDto } from "src/community/dto/post.dto";
 export declare class UserDataDto {
     name: string;
     email: string;
@@ -7,8 +8,9 @@ export declare class UserDataDto {
     uid: string;
     profileImage?: string;
     phoneNumber: string;
-    posts: Array<any>;
+    posts: Array<PostDto>;
     scores: Array<any>;
     favoriteFoods: Array<any>;
     fromJson(json: any): void;
+    toJson(): Record<string, any>;
 }

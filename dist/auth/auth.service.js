@@ -12,7 +12,6 @@ const user_data_dto_1 = require("./dto/user_data.dto");
 const firebase_init_1 = require("../core/firebase_init");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const auth_1 = require("@firebase/auth");
-const log_in_error_dto_1 = require("./dto/log_in_error.dto");
 const forgot_password_response_dto_1 = require("./dto/forgot_password_response.dto");
 let AuthService = class AuthService {
     async signUp(userData) {
@@ -34,9 +33,7 @@ let AuthService = class AuthService {
             return user;
         }
         catch (_) {
-            let errorDto = new log_in_error_dto_1.LogInErrorDto();
-            errorDto.reason = "Geçersiz e-posta veya şifre.";
-            return errorDto;
+            return null;
         }
     }
     async forgotPassword(params) {

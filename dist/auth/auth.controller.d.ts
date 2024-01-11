@@ -6,6 +6,6 @@ export declare class AuthController {
     private readonly service;
     constructor(service: AuthService);
     signUp(params: UserDataDto): Promise<UserDataDto>;
-    logIn(params: LogInRequestDto): Promise<UserDataDto | import("./dto/log_in_error.dto").LogInErrorDto>;
+    logIn(params: LogInRequestDto): Promise<UserDataDto>;
     forgotPassword(params: ForgotPasswordRequestDto): Promise<import("./dto/forgot_password_response.dto").ForgotPasswordResponseDto>;
 }
