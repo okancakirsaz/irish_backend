@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunityService = void 0;
 const common_1 = require("@nestjs/common");
+const post_dto_1 = require("./dto/post.dto");
 const buffer_1 = require("buffer");
 const storage_1 = require("@firebase/storage");
 const firebase_init_1 = require("../core/firebase_init");
@@ -22,6 +23,10 @@ let CommunityService = class CommunityService {
         params.apiImage = await this.savePostImageToStorage(params.imageAsByte, params.id);
         params.imageAsByte = null;
         await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.POSTS, params.id);
+        await this.savePostToUserData(params);
+        return params;
+    }
+    async savePostToUserData(params) {
         const usersCol = await (0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS);
         const findSharedUser = (0, firestore_1.query)(usersCol, (0, firestore_1.where)('uid', '==', params.user.uid));
         const foundUser = await (0, firestore_1.getDocs)(findSharedUser);
@@ -38,6 +43,31 @@ let CommunityService = class CommunityService {
         const storageRef = (0, storage_1.ref)(this.network.storage, "posts/" + `${refId}.jpg`);
         await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
         return await (0, storage_1.getDownloadURL)(storageRef);
+    }
+    async getCurrentPosts() {
+        const q = (0, firestore_1.query)((0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.POSTS), (0, firestore_1.orderBy)("timestamp", "desc"), (0, firestore_1.limit)(2));
+        let response = [];
+        const querySnapshot = await (0, firestore_1.getDocs)(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+            const docAsElement = new post_dto_1.PostDto();
+            docAsElement.fromJson(doc.data());
+            response.push(docAsElement);
+        });
+        return response;
+    }
+    async getMoreCommunityShares(params) {
+        const timestampQuery = (0, firestore_1.query)((0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.POSTS), (0, firestore_1.orderBy)("timestamp", "desc"));
+        const q = (0, firestore_1.query)(timestampQuery, (0, firestore_1.where)('timestamp', '<', params.time), (0, firestore_1.limit)(2));
+        let response = [];
+        const querySnapshot = await (0, firestore_1.getDocs)(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+            const docAsElement = new post_dto_1.PostDto();
+            docAsElement.fromJson(doc.data());
+            response.push(docAsElement);
+        });
+        return response;
     }
 };
 exports.CommunityService = CommunityService;

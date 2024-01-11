@@ -4,4 +4,5 @@ export declare class LiteUserDto {
     name: string;
     profileImage: string;
     gender: string;
+    fromJson(json: any): void;
 }

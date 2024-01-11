@@ -1,7 +1,10 @@
 import { PostDto } from "./dto/post.dto";
-import { FirebaseInit } from "src/core/firebase_init";
+import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 export declare class CommunityService {
-    network: FirebaseInit;
-    sharePost(params: PostDto): Promise<void>;
+    private network;
+    sharePost(params: PostDto): Promise<PostDto>;
+    private savePostToUserData;
     private savePostImageToStorage;
+    getCurrentPosts(): Promise<PostDto[]>;
+    getMoreCommunityShares(params: GetMorePostDto): Promise<PostDto[]>;
 }

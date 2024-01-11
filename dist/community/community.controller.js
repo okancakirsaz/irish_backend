@@ -16,18 +16,24 @@ exports.CommunityController = void 0;
 const common_1 = require("@nestjs/common");
 const community_service_1 = require("./community.service");
 const post_dto_1 = require("./dto/post.dto");
+const get_more_posts_req_dto_1 = require("./dto/get_more_posts_req.dto");
 let CommunityController = class CommunityController {
     constructor(service) {
         this.service = service;
     }
     async sharePost(params) {
         try {
-            await this.service.sharePost(params);
-            return params;
+            return await this.service.sharePost(params);
         }
         catch (error) {
             throw Error(error);
         }
+    }
+    async getCommunityShares() {
+        return await this.service.getCurrentPosts();
+    }
+    async getMoreCommunityShares(params) {
+        return await this.service.getMoreCommunityShares(params);
     }
 };
 exports.CommunityController = CommunityController;
@@ -38,6 +44,19 @@ __decorate([
     __metadata("design:paramtypes", [post_dto_1.PostDto]),
     __metadata("design:returntype", Promise)
 ], CommunityController.prototype, "sharePost", null);
+__decorate([
+    (0, common_1.Get)("community-shares"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CommunityController.prototype, "getCommunityShares", null);
+__decorate([
+    (0, common_1.Post)("get-more-community-shares"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [get_more_posts_req_dto_1.GetMorePostDto]),
+    __metadata("design:returntype", Promise)
+], CommunityController.prototype, "getMoreCommunityShares", null);
 exports.CommunityController = CommunityController = __decorate([
     (0, common_1.Controller)('community'),
     __metadata("design:paramtypes", [community_service_1.CommunityService])
