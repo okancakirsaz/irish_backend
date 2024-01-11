@@ -49,7 +49,6 @@ let CommunityService = class CommunityService {
         let response = [];
         const querySnapshot = await (0, firestore_1.getDocs)(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.data());
             const docAsElement = new post_dto_1.PostDto();
             docAsElement.fromJson(doc.data());
             response.push(docAsElement);
@@ -62,7 +61,6 @@ let CommunityService = class CommunityService {
         let response = [];
         const querySnapshot = await (0, firestore_1.getDocs)(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.data());
             const docAsElement = new post_dto_1.PostDto();
             docAsElement.fromJson(doc.data());
             response.push(docAsElement);

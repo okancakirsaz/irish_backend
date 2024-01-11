@@ -1,7 +1,7 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "@firebase/auth";
-import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { getStorage, ref } from "@firebase/storage";
+import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs } from "firebase/firestore";
+import { getStorage} from "@firebase/storage";
 
 export class FirebaseInit {
   static instance: FirebaseInit = new FirebaseInit();
@@ -40,6 +40,21 @@ export class FirebaseInit {
     } catch (error) {
       console.log(
          `You have an error in get ${colName}/${docName} data\nThis is your error: `,
+         error
+       );
+    }
+  }
+  async getDocs(colName: string) {
+    try {
+    let response = [];
+    const col = await collection(this.firestore, colName);
+    const request=await getDocs(col);
+    request.forEach((data)=>{response.push(data.data())})
+    
+    return response;
+    } catch (error) {
+      console.log(
+         `You have an error in get ${colName} data\nThis is your error: `,
          error
        );
     }

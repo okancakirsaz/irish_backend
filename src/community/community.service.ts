@@ -54,7 +54,6 @@ export class CommunityService {
     let response:PostDto[]=[];
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) =>{
-      console.log(doc.data())
       const docAsElement:PostDto = new PostDto();
       docAsElement.fromJson(doc.data());
       response.push(docAsElement); 
@@ -71,7 +70,6 @@ export class CommunityService {
     let response:PostDto[]=[];
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) =>{
-      console.log(doc.data())
       const docAsElement:PostDto = new PostDto();
       docAsElement.fromJson(doc.data());
       response.push(docAsElement); 

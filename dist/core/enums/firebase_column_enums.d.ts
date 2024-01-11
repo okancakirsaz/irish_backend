@@ -1,4 +1,5 @@
 export declare enum FirebaseColumns {
     USERS = "USERS",
-    POSTS = "POSTS"
+    POSTS = "POSTS",
+    MENU = "MENU"
 }

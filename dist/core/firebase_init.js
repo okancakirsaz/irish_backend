@@ -40,6 +40,18 @@ class FirebaseInit {
             console.log(`You have an error in get ${colName}/${docName} data\nThis is your error: `, error);
         }
     }
+    async getDocs(colName) {
+        try {
+            let response = [];
+            const col = await (0, firestore_1.collection)(this.firestore, colName);
+            const request = await (0, firestore_1.getDocs)(col);
+            request.forEach((data) => { response.push(data.data()); });
+            return response;
+        }
+        catch (error) {
+            console.log(`You have an error in get ${colName} data\nThis is your error: `, error);
+        }
+    }
 }
 exports.FirebaseInit = FirebaseInit;
 FirebaseInit.instance = new FirebaseInit();

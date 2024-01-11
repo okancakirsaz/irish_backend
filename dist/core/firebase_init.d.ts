@@ -16,4 +16,5 @@ export declare class FirebaseInit {
     storage: import("@firebase/storage").FirebaseStorage;
     setData(data: any, colName: string, docName: string): Promise<void>;
     getDoc(colName: string, docName: string): Promise<DocumentSnapshot<import("@firebase/firestore").DocumentData, import("@firebase/firestore").DocumentData>>;
+    getDocs(colName: string): Promise<any[]>;
 }
