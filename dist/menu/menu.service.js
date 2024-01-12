@@ -9,11 +9,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MenuService = void 0;
 const common_1 = require("@nestjs/common");
 const menu_item_dto_1 = require("./dto/menu_item.dto");
-const firebase_init_1 = require("../core/firebase_init");
+const firebase_services_1 = require("../core/firebase_services");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 let MenuService = class MenuService {
     constructor() {
-        this.network = firebase_init_1.FirebaseInit.instance;
+        this.network = firebase_services_1.FirebaseServices.instance;
     }
     async getMenu() {
         const response = await this.network.getDocs(firebase_column_enums_1.FirebaseColumns.MENU);

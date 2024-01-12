@@ -9,27 +9,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const user_data_dto_1 = require("./dto/user_data.dto");
-const firebase_init_1 = require("../core/firebase_init");
+const firebase_services_1 = require("../core/firebase_services");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const auth_1 = require("@firebase/auth");
 const forgot_password_response_dto_1 = require("./dto/forgot_password_response.dto");
 let AuthService = class AuthService {
     async signUp(userData) {
-        await (0, auth_1.createUserWithEmailAndPassword)(firebase_init_1.FirebaseInit.instance.auth, userData.email, userData.password);
-        userData.uid = firebase_init_1.FirebaseInit.instance.auth.currentUser.uid;
-        userData.token = await firebase_init_1.FirebaseInit.instance.auth.currentUser.getIdToken();
+        await (0, auth_1.createUserWithEmailAndPassword)(firebase_services_1.FirebaseServices.instance.auth, userData.email, userData.password);
+        userData.uid = firebase_services_1.FirebaseServices.instance.auth.currentUser.uid;
+        userData.token = await firebase_services_1.FirebaseServices.instance.auth.currentUser.getIdToken();
         userData.password = null;
-        await firebase_init_1.FirebaseInit.instance.setData(userData, firebase_column_enums_1.FirebaseColumns.USERS, firebase_init_1.FirebaseInit.instance.auth.currentUser.uid);
-        await (0, auth_1.signOut)(firebase_init_1.FirebaseInit.instance.auth);
+        await firebase_services_1.FirebaseServices.instance.setData(userData, firebase_column_enums_1.FirebaseColumns.USERS, firebase_services_1.FirebaseServices.instance.auth.currentUser.uid);
+        await (0, auth_1.signOut)(firebase_services_1.FirebaseServices.instance.auth);
         return userData;
     }
     async logIn(params) {
         try {
             let user = new user_data_dto_1.UserDataDto();
-            await (0, auth_1.signInWithEmailAndPassword)(firebase_init_1.FirebaseInit.instance.auth, params.email, params.password);
-            const userData = (await firebase_init_1.FirebaseInit.instance.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, firebase_init_1.FirebaseInit.instance.auth.currentUser.uid)).data();
+            await (0, auth_1.signInWithEmailAndPassword)(firebase_services_1.FirebaseServices.instance.auth, params.email, params.password);
+            const userData = (await firebase_services_1.FirebaseServices.instance.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, firebase_services_1.FirebaseServices.instance.auth.currentUser.uid)).data();
             user.fromJson(userData);
-            await (0, auth_1.signOut)(firebase_init_1.FirebaseInit.instance.auth);
+            await (0, auth_1.signOut)(firebase_services_1.FirebaseServices.instance.auth);
             return user;
         }
         catch (_) {
@@ -40,7 +40,7 @@ let AuthService = class AuthService {
         const response = new forgot_password_response_dto_1.ForgotPasswordResponseDto();
         response.email = params.email;
         try {
-            await (0, auth_1.sendPasswordResetEmail)(firebase_init_1.FirebaseInit.instance.auth, params.email);
+            await (0, auth_1.sendPasswordResetEmail)(firebase_services_1.FirebaseServices.instance.auth, params.email);
             response.isMailSended = true;
             response.reason = null;
         }

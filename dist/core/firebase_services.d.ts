@@ -1,6 +1,6 @@
 import { DocumentSnapshot } from "firebase/firestore";
-export declare class FirebaseInit {
-    static instance: FirebaseInit;
+export declare class FirebaseServices {
+    static instance: FirebaseServices;
     firebaseConfig: {
         apiKey: string;
         authDomain: string;

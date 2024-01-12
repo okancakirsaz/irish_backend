@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FirebaseInit = void 0;
+exports.FirebaseServices = void 0;
 const app_1 = require("firebase/app");
 const auth_1 = require("@firebase/auth");
 const firestore_1 = require("firebase/firestore");
 const storage_1 = require("@firebase/storage");
-class FirebaseInit {
+class FirebaseServices {
     constructor() {
         this.firebaseConfig = {
             apiKey: "AIzaSyAH74ivDHm8-5wjXi7BRowY3BBj4vx8Ihk",
@@ -53,6 +53,6 @@ class FirebaseInit {
         }
     }
 }
-exports.FirebaseInit = FirebaseInit;
-FirebaseInit.instance = new FirebaseInit();
-//# sourceMappingURL=firebase_init.js.map
+exports.FirebaseServices = FirebaseServices;
+FirebaseServices.instance = new FirebaseServices();
+//# sourceMappingURL=firebase_services.js.map

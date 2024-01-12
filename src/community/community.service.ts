@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PostDto } from "./dto/post.dto";
 import {Buffer} from 'buffer';
 import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
-import { FirebaseInit } from "src/core/firebase_init";
+import { FirebaseServices } from "src/core/firebase_services";
 import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 import { collection, doc, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { UserDataDto } from "src/auth/dto/user_data.dto";
@@ -11,7 +11,7 @@ import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 @Injectable()
 export class CommunityService {
 
-  private network:FirebaseInit = FirebaseInit.instance;
+  private network:FirebaseServices = FirebaseServices.instance;
 
   async sharePost(params:PostDto){
       params.apiImage =await this.savePostImageToStorage(params.imageAsByte,params.id);

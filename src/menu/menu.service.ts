@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { MenuItemDto } from "./dto/menu_item.dto";
-import { FirebaseInit } from "src/core/firebase_init";
+import { FirebaseServices } from "src/core/firebase_services";
 import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 
 @Injectable()
 export class MenuService{
-    private network = FirebaseInit.instance;
+    private network = FirebaseServices.instance;
     async getMenu():Promise<MenuItemDto[]>{
         const response = await this.network.getDocs(FirebaseColumns.MENU);
         let responseAsModel:MenuItemDto[]=[];

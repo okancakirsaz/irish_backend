@@ -1,10 +1,10 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAuth } from "@firebase/auth";
+import {  UserCredential, getAuth, signInWithCustomToken, signOut } from "@firebase/auth";
 import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs } from "firebase/firestore";
 import { getStorage} from "@firebase/storage";
 
-export class FirebaseInit {
-  static instance: FirebaseInit = new FirebaseInit();
+export class FirebaseServices {
+  static instance: FirebaseServices = new FirebaseServices();
 
   firebaseConfig = {
     apiKey: "AIzaSyAH74ivDHm8-5wjXi7BRowY3BBj4vx8Ihk",

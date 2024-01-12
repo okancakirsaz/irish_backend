@@ -11,13 +11,13 @@ const common_1 = require("@nestjs/common");
 const post_dto_1 = require("./dto/post.dto");
 const buffer_1 = require("buffer");
 const storage_1 = require("@firebase/storage");
-const firebase_init_1 = require("../core/firebase_init");
+const firebase_services_1 = require("../core/firebase_services");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const firestore_1 = require("firebase/firestore");
 const user_data_dto_1 = require("../auth/dto/user_data.dto");
 let CommunityService = class CommunityService {
     constructor() {
-        this.network = firebase_init_1.FirebaseInit.instance;
+        this.network = firebase_services_1.FirebaseServices.instance;
     }
     async sharePost(params) {
         params.apiImage = await this.savePostImageToStorage(params.imageAsByte, params.id);
