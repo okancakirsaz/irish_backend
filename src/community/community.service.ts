@@ -32,7 +32,7 @@ export class CommunityService {
       updateDoc(doc(usersCol,user.id),userData.toJson());
   })
   }
-
+  //TODO:SET IMAGE UPLOADER IN FIREBASE SERVICES AND USE IT
   private async savePostImageToStorage(imageAsBase64:string,refId:string):Promise<string>{
     const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
     const imageDataAsUint8List = Buffer.from(decodedData,'binary');

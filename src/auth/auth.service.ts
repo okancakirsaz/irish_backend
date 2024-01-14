@@ -8,6 +8,8 @@ import { ForgotPasswordRequestDto } from "./dto/forgot_password_request.dto";
 import { ForgotPasswordResponseDto } from "./dto/forgot_password_response.dto";
 @Injectable()
 export class AuthService {
+
+  //TODO:SOLID!
   async signUp(userData: UserDataDto): Promise<UserDataDto> {
       await createUserWithEmailAndPassword(
          FirebaseServices.instance.auth,
@@ -21,7 +23,7 @@ export class AuthService {
        await signOut(FirebaseServices.instance.auth);
        return userData;
   }
-
+  //TODO:SOLID!
   async logIn(params:LogInRequestDto):Promise<UserDataDto>{
     try{
       let user:UserDataDto=new UserDataDto();
@@ -35,7 +37,7 @@ export class AuthService {
       return null;
     }
   }
-
+  
   async forgotPassword(params:ForgotPasswordRequestDto):Promise<ForgotPasswordResponseDto>{
     const response:ForgotPasswordResponseDto = new ForgotPasswordResponseDto();
       response.email=params.email;
