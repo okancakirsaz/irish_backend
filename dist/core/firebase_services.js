@@ -52,6 +52,13 @@ class FirebaseServices {
             console.log(`You have an error in get ${colName} data\nThis is your error: `, error);
         }
     }
+    async setImageToStorage(imageAsBase64, refId, folderName) {
+        const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
+        const imageDataAsUint8List = Buffer.from(decodedData, 'binary');
+        const storageRef = (0, storage_1.ref)(this.storage, `${folderName}/` + `${refId}.jpg`);
+        await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
+        return await (0, storage_1.getDownloadURL)(storageRef);
+    }
 }
 exports.FirebaseServices = FirebaseServices;
 FirebaseServices.instance = new FirebaseServices();

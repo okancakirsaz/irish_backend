@@ -4,7 +4,6 @@ export declare class CommunityService {
     private network;
     sharePost(params: PostDto): Promise<PostDto>;
     private savePostToUserData;
-    private savePostImageToStorage;
     getCurrentPosts(): Promise<PostDto[]>;
     getMoreCommunityShares(params: GetMorePostDto): Promise<PostDto[]>;
 }

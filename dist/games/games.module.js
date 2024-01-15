@@ -6,22 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.GamesModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
-const community_module_1 = require("./community/community.module");
-const menu_module_1 = require("./menu/menu.module");
-const user_module_1 = require("./user/user.module");
-const games_module_1 = require("./games/games.module");
-let AppModule = class AppModule {
+const games_service_1 = require("./games.service");
+const games_controllr_1 = require("./games.controllr");
+let GamesModule = class GamesModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.GamesModule = GamesModule;
+exports.GamesModule = GamesModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule
-        ],
-        controllers: [],
+        providers: [games_service_1.GamesService],
+        controllers: [games_controllr_1.GamesController]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], GamesModule);
+//# sourceMappingURL=games.module.js.map

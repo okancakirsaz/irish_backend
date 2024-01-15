@@ -6,5 +6,6 @@ var FirebaseColumns;
     FirebaseColumns["USERS"] = "USERS";
     FirebaseColumns["POSTS"] = "POSTS";
     FirebaseColumns["MENU"] = "MENU";
+    FirebaseColumns["EVENTS"] = "EVENTS";
 })(FirebaseColumns || (exports.FirebaseColumns = FirebaseColumns = {}));
 //# sourceMappingURL=firebase_column_enums.js.map

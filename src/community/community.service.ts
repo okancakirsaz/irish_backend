@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { PostDto } from "./dto/post.dto";
-import {Buffer} from 'buffer';
-import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import { FirebaseServices } from "src/core/firebase_services";
 import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 import { collection, doc, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
@@ -14,7 +12,7 @@ export class CommunityService {
   private network:FirebaseServices = FirebaseServices.instance;
 
   async sharePost(params:PostDto){
-      params.apiImage =await this.savePostImageToStorage(params.imageAsByte,params.id);
+      params.apiImage =await this.network.setImageToStorage(params.imageAsByte,params.id,"posts");
       params.imageAsByte=null;
       await this.network.setData(params,FirebaseColumns.POSTS,params.id);
       await this.savePostToUserData(params);
@@ -32,17 +30,7 @@ export class CommunityService {
       updateDoc(doc(usersCol,user.id),userData.toJson());
   })
   }
-  //TODO:SET IMAGE UPLOADER IN FIREBASE SERVICES AND USE IT
-  private async savePostImageToStorage(imageAsBase64:string,refId:string):Promise<string>{
-    const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
-    const imageDataAsUint8List = Buffer.from(decodedData,'binary');
-    const storageRef = ref(
-        this.network.storage,
-        "posts/" + `${refId}.jpg`
-      );
-      await uploadBytesResumable(storageRef, imageDataAsUint8List);
-      return await getDownloadURL(storageRef);
-  }
+ 
 
   async getCurrentPosts():Promise<PostDto[]>{
 

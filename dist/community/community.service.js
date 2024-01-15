@@ -9,8 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunityService = void 0;
 const common_1 = require("@nestjs/common");
 const post_dto_1 = require("./dto/post.dto");
-const buffer_1 = require("buffer");
-const storage_1 = require("@firebase/storage");
 const firebase_services_1 = require("../core/firebase_services");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const firestore_1 = require("firebase/firestore");
@@ -20,7 +18,7 @@ let CommunityService = class CommunityService {
         this.network = firebase_services_1.FirebaseServices.instance;
     }
     async sharePost(params) {
-        params.apiImage = await this.savePostImageToStorage(params.imageAsByte, params.id);
+        params.apiImage = await this.network.setImageToStorage(params.imageAsByte, params.id, "posts");
         params.imageAsByte = null;
         await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.POSTS, params.id);
         await this.savePostToUserData(params);
@@ -36,13 +34,6 @@ let CommunityService = class CommunityService {
             userData.posts.push(params);
             (0, firestore_1.updateDoc)((0, firestore_1.doc)(usersCol, user.id), userData.toJson());
         });
-    }
-    async savePostImageToStorage(imageAsBase64, refId) {
-        const decodedData = buffer_1.Buffer.from(imageAsBase64, 'base64').toString('binary');
-        const imageDataAsUint8List = buffer_1.Buffer.from(decodedData, 'binary');
-        const storageRef = (0, storage_1.ref)(this.network.storage, "posts/" + `${refId}.jpg`);
-        await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
-        return await (0, storage_1.getDownloadURL)(storageRef);
     }
     async getCurrentPosts() {
         const q = (0, firestore_1.query)((0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.POSTS), (0, firestore_1.orderBy)("timestamp", "desc"), (0, firestore_1.limit)(2));

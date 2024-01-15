@@ -1,7 +1,7 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import {  UserCredential, getAuth, signInWithCustomToken, signOut } from "@firebase/auth";
 import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs } from "firebase/firestore";
-import { getStorage} from "@firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
 
 export class FirebaseServices {
   static instance: FirebaseServices = new FirebaseServices();
@@ -58,5 +58,16 @@ export class FirebaseServices {
          error
        );
     }
+  }
+
+  async setImageToStorage(imageAsBase64:string,refId:string,folderName:string):Promise<string>{
+    const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
+    const imageDataAsUint8List = Buffer.from(decodedData,'binary');
+    const storageRef = ref(
+        this.storage,
+        `${folderName}/` + `${refId}.jpg`
+      );
+      await uploadBytesResumable(storageRef, imageDataAsUint8List);
+      return await getDownloadURL(storageRef);
   }
 }
