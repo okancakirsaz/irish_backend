@@ -84,7 +84,7 @@ export class AuthService {
       await sendPasswordResetEmail(
         FirebaseServices.instance.auth,
         params.email
-      );
+      ); 
       response.isMailSended = true;
       response.reason = null;
     } catch (_) {
