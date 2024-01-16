@@ -1,4 +1,5 @@
 import { PostDto } from "src/community/dto/post.dto"
+import { UserSettingsDto } from "src/user/dto/user_settings.dto"
 
 export class UserDataDto{
     name:string
@@ -14,6 +15,7 @@ export class UserDataDto{
     scores:Array<any>
     //TODO: Favorite foods DTO here
     favoriteFoods:Array<any>
+    isAnonym:boolean
 
     fromJson(json){
         this.name=json["name"];
@@ -26,6 +28,7 @@ export class UserDataDto{
         this.posts=json["posts"];
         this.scores=json["scores"];
         this.favoriteFoods=json["favoriteFoods"];
+        this.isAnonym=json['isAnonym']
     }
 
     toJson():Record<string,any>{
@@ -39,7 +42,8 @@ export class UserDataDto{
             'phoneNumber':this.phoneNumber,
             'posts':this.posts,
             'scores':this.scores,
-            'favoriteFoods':this.favoriteFoods
+            'favoriteFoods':this.favoriteFoods,
+            'isAnonym':this.isAnonym
         }
     }
 }

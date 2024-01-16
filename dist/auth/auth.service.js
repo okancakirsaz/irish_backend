@@ -15,12 +15,24 @@ const auth_1 = require("@firebase/auth");
 const forgot_password_response_dto_1 = require("./dto/forgot_password_response.dto");
 let AuthService = class AuthService {
     async signUp(userData) {
-        await (0, auth_1.createUserWithEmailAndPassword)(firebase_services_1.FirebaseServices.instance.auth, userData.email, userData.password);
-        userData.uid = firebase_services_1.FirebaseServices.instance.auth.currentUser.uid;
-        userData.token = await firebase_services_1.FirebaseServices.instance.auth.currentUser.getIdToken();
-        userData.password = null;
-        await firebase_services_1.FirebaseServices.instance.setData(userData, firebase_column_enums_1.FirebaseColumns.USERS, firebase_services_1.FirebaseServices.instance.auth.currentUser.uid);
+        const createdUser = await this.createUser(userData.email, userData.password);
+        const newUser = await this.saveUserToDb(userData, createdUser);
         await (0, auth_1.signOut)(firebase_services_1.FirebaseServices.instance.auth);
+        return newUser;
+    }
+    async createUser(email, password) {
+        try {
+            await (0, auth_1.createUserWithEmailAndPassword)(firebase_services_1.FirebaseServices.instance.auth, email, password);
+            return firebase_services_1.FirebaseServices.instance.auth.currentUser;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    async saveUserToDb(userData, createdUser) {
+        userData.uid = createdUser.uid;
+        userData.token = await createdUser.getIdToken();
+        await firebase_services_1.FirebaseServices.instance.setData(userData, firebase_column_enums_1.FirebaseColumns.USERS, firebase_services_1.FirebaseServices.instance.auth.currentUser.uid);
         return userData;
     }
     async logIn(params) {

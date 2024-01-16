@@ -4,6 +4,8 @@ import { ForgotPasswordRequestDto } from "./dto/forgot_password_request.dto";
 import { ForgotPasswordResponseDto } from "./dto/forgot_password_response.dto";
 export declare class AuthService {
     signUp(userData: UserDataDto): Promise<UserDataDto>;
+    private createUser;
+    private saveUserToDb;
     logIn(params: LogInRequestDto): Promise<UserDataDto>;
     forgotPassword(params: ForgotPasswordRequestDto): Promise<ForgotPasswordResponseDto>;
 }

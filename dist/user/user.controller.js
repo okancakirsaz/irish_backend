@@ -16,6 +16,9 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const user_data_types_1 = require("./core/user_data_types");
+const user_settings_dto_1 = require("./dto/user_settings.dto");
+const change_profile_photo_dto_1 = require("./dto/change_profile_photo.dto");
+const uid_req_dto_1 = require("./dto/uid_req.dto");
 let UserController = class UserController {
     constructor(service) {
         this.service = service;
@@ -44,6 +47,46 @@ let UserController = class UserController {
             throw Error(error);
         }
     }
+    async getUserSettings(header) {
+        try {
+            return await this.service.getUserSettings(header['token']);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async setNewUserSettings(params, headers) {
+        try {
+            return this.service.setNewUserSettings(params, headers['token']);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async changeProfilePhoto(params) {
+        try {
+            return await this.service.changeProfilePhoto(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async deleteProfilePhoto(params) {
+        try {
+            return await this.service.deleteProfileImage(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async deleteAccount(params) {
+        try {
+            return await this.service.deleteAccount(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -67,6 +110,42 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserFavoriteFoods", null);
+__decorate([
+    (0, common_1.Get)('user-settings'),
+    __param(0, (0, common_1.Headers)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserSettings", null);
+__decorate([
+    (0, common_1.Post)('set-new-user-settings'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Headers)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_settings_dto_1.UserSettingsDto, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "setNewUserSettings", null);
+__decorate([
+    (0, common_1.Post)('change-profile-photo'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [change_profile_photo_dto_1.ChangeProfilePhotoDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "changeProfilePhoto", null);
+__decorate([
+    (0, common_1.Post)('delete-profile-image'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [uid_req_dto_1.UidReqDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteProfilePhoto", null);
+__decorate([
+    (0, common_1.Post)('delete-account'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [uid_req_dto_1.UidReqDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteAccount", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])

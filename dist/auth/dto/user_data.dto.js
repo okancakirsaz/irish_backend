@@ -13,6 +13,7 @@ class UserDataDto {
         this.posts = json["posts"];
         this.scores = json["scores"];
         this.favoriteFoods = json["favoriteFoods"];
+        this.isAnonym = json['isAnonym'];
     }
     toJson() {
         return {
@@ -25,7 +26,8 @@ class UserDataDto {
             'phoneNumber': this.phoneNumber,
             'posts': this.posts,
             'scores': this.scores,
-            'favoriteFoods': this.favoriteFoods
+            'favoriteFoods': this.favoriteFoods,
+            'isAnonym': this.isAnonym
         };
     }
 }

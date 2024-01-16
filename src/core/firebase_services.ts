@@ -1,7 +1,7 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import {  UserCredential, getAuth, signInWithCustomToken, signOut } from "@firebase/auth";
-import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
+import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc } from "firebase/firestore";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
 
 export class FirebaseServices {
   static instance: FirebaseServices = new FirebaseServices();
@@ -44,6 +44,19 @@ export class FirebaseServices {
        );
     }
   }
+
+  async deleteDoc(colName: string, docName: string) {
+    try {
+    const col = collection(this.firestore, colName);
+    await deleteDoc(doc(col, docName));
+    } catch (error) {
+      console.log(
+         `You have an error in delete ${colName}/${docName} data\nThis is your error: `,
+         error
+       );
+    }
+  }
+
   async getDocs(colName: string) {
     try {
     let response = [];
@@ -69,5 +82,13 @@ export class FirebaseServices {
       );
       await uploadBytesResumable(storageRef, imageDataAsUint8List);
       return await getDownloadURL(storageRef);
+  }
+
+  async deleteImageFromStorage(refId:string,folderName:string){
+    const storageRef = ref(
+        this.storage,
+        `${folderName}/` + `${refId}.jpg`
+      );
+     await deleteObject(storageRef);
   }
 }

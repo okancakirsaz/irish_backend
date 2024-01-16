@@ -40,6 +40,15 @@ class FirebaseServices {
             console.log(`You have an error in get ${colName}/${docName} data\nThis is your error: `, error);
         }
     }
+    async deleteDoc(colName, docName) {
+        try {
+            const col = (0, firestore_1.collection)(this.firestore, colName);
+            await (0, firestore_1.deleteDoc)((0, firestore_1.doc)(col, docName));
+        }
+        catch (error) {
+            console.log(`You have an error in delete ${colName}/${docName} data\nThis is your error: `, error);
+        }
+    }
     async getDocs(colName) {
         try {
             let response = [];
@@ -58,6 +67,10 @@ class FirebaseServices {
         const storageRef = (0, storage_1.ref)(this.storage, `${folderName}/` + `${refId}.jpg`);
         await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
         return await (0, storage_1.getDownloadURL)(storageRef);
+    }
+    async deleteImageFromStorage(refId, folderName) {
+        const storageRef = (0, storage_1.ref)(this.storage, `${folderName}/` + `${refId}.jpg`);
+        await (0, storage_1.deleteObject)(storageRef);
     }
 }
 exports.FirebaseServices = FirebaseServices;

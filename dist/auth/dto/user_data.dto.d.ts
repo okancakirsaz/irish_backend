@@ -11,6 +11,7 @@ export declare class UserDataDto {
     posts: Array<PostDto>;
     scores: Array<any>;
     favoriteFoods: Array<any>;
+    isAnonym: boolean;
     fromJson(json: any): void;
     toJson(): Record<string, any>;
 }
