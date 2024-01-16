@@ -18,6 +18,7 @@ export declare class FirebaseServices {
     getDoc(colName: string, docName: string): Promise<DocumentSnapshot<import("@firebase/firestore").DocumentData, import("@firebase/firestore").DocumentData>>;
     deleteDoc(colName: string, docName: string): Promise<void>;
     getDocs(colName: string): Promise<any[]>;
+    updateDocument(colName: string, docName: string, data: any): Promise<void>;
     setImageToStorage(imageAsBase64: string, refId: string, folderName: string): Promise<string>;
     deleteImageFromStorage(refId: string, folderName: string): Promise<void>;
 }

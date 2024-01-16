@@ -61,6 +61,11 @@ class FirebaseServices {
             console.log(`You have an error in get ${colName} data\nThis is your error: `, error);
         }
     }
+    async updateDocument(colName, docName, data) {
+        const col = (0, firestore_1.collection)(this.firestore, colName);
+        const docRef = (0, firestore_1.doc)(col, docName);
+        await (0, firestore_1.updateDoc)(docRef, data);
+    }
     async setImageToStorage(imageAsBase64, refId, folderName) {
         const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
         const imageDataAsUint8List = Buffer.from(decodedData, 'binary');

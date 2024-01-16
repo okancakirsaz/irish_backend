@@ -4,6 +4,7 @@ import { UserFavoriteFoods, UserPosts, UserScores } from "./core/user_data_types
 import { UserSettingsDto } from "./dto/user_settings.dto";
 import { ChangeProfilePhotoDto } from "./dto/change_profile_photo.dto";
 import { UidReqDto } from "./dto/uid_req.dto";
+import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
 
 @Controller("user")
 export class UserController {
@@ -73,6 +74,15 @@ export class UserController {
   async deleteAccount(@Body() params:UidReqDto){
     try {
       return await this.service.deleteAccount(params);
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Post('delete-post')
+  async deletePost(@Body() params:PostDeleteReqDto){
+    try {
+      return await this.service.deletePost(params);
     } catch (error) {
       throw Error(error);
     }

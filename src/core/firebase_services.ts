@@ -1,6 +1,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import {  UserCredential, getAuth, signInWithCustomToken, signOut } from "@firebase/auth";
-import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc } from "firebase/firestore";
+import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
 
 export class FirebaseServices {
@@ -71,6 +71,12 @@ export class FirebaseServices {
          error
        );
     }
+  }
+
+  async updateDocument(colName:string,docName:string,data:any){
+    const col = collection(this.firestore, colName);
+    const docRef = doc(col,docName);
+    await updateDoc(docRef,data);
   }
 
   async setImageToStorage(imageAsBase64:string,refId:string,folderName:string):Promise<string>{

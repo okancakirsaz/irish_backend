@@ -21,7 +21,7 @@ let UserService = class UserService {
     }
     async getUserDatasFromToken(token, dataType) {
         const col = (0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS);
-        const q = (0, firestore_1.query)(col, (0, firestore_1.where)('token', '==', token));
+        const q = (0, firestore_1.query)(col, (0, firestore_1.where)("token", "==", token));
         const docs = await (0, firestore_1.getDocs)(q);
         let response = [];
         docs.forEach((doc) => {
@@ -32,25 +32,6 @@ let UserService = class UserService {
     async getUserSettings(token) {
         const userData = await this.getUserData(token);
         return this.fetchUserSettings(userData);
-    }
-    async getUserData(token) {
-        const col = (0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS);
-        const q = (0, firestore_1.query)(col, (0, firestore_1.where)('token', '==', token));
-        const docs = await (0, firestore_1.getDocs)(q);
-        const dto = new user_data_dto_1.UserDataDto();
-        docs.forEach((doc) => {
-            dto.fromJson(doc.data());
-        });
-        return dto;
-    }
-    fetchUserSettings(userData) {
-        let settings = new user_settings_dto_1.UserSettingsDto();
-        settings.email = userData.email;
-        settings.isAnonym = userData.isAnonym;
-        settings.name = userData.name;
-        settings.phoneNumber = userData.phoneNumber;
-        settings.photoUrl = userData.profileImage;
-        return settings;
     }
     async setNewUserSettings(params, token) {
         let newSettings = new user_settings_dto_1.UserSettingsDto();
@@ -63,24 +44,11 @@ let UserService = class UserService {
         newSettings.photoUrl = newUserData.profileImage;
         return newSettings;
     }
-    async updateUserData(userData, params) {
-        userData.isAnonym = params.isAnonym;
-        userData.name = params.name;
-        userData.email = params.email;
-        userData.phoneNumber = params.phoneNumber;
-        const document = (0, firestore_1.doc)((0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS), userData.uid);
-        await (0, firestore_1.updateDoc)(document, userData.toJson());
-        return userData;
-    }
     async changeProfilePhoto(params) {
         const imageRef = await this.network.setImageToStorage(params.imageAsByte, params.uid, "profilePhotos");
         params.profileImage = imageRef;
         await this.setProfileImageToDb(params.uid, params.profileImage);
         return params;
-    }
-    async setProfileImageToDb(uid, profileImage) {
-        const document = (0, firestore_1.doc)((0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS), uid);
-        await (0, firestore_1.updateDoc)(document, { 'profileImage': profileImage });
     }
     async deleteProfileImage(params) {
         let response = new boolean_single_response_dto_1.BooleanSingleResponseDto();
@@ -110,6 +78,59 @@ let UserService = class UserService {
             return response;
         }
     }
+    async deletePost(params) {
+        let response = new boolean_single_response_dto_1.BooleanSingleResponseDto();
+        try {
+            await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.POSTS, params.postId);
+            const userData = await this.getUserData(params.token);
+            await this.network.deleteImageFromStorage(params.postId, 'posts');
+            userData.posts.forEach((post) => {
+                if (post.id == params.postId) {
+                    const index = userData.posts.indexOf(post);
+                    userData.posts.splice(index, 1);
+                }
+            });
+            await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, userData.uid, userData.toJson());
+            response.isSuccess = true;
+        }
+        catch (error) {
+            console.log(error);
+            response.isSuccess = false;
+        }
+        finally {
+            return response;
+        }
+    }
+    async getUserData(token) {
+        const col = (0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.USERS);
+        const q = (0, firestore_1.query)(col, (0, firestore_1.where)("token", "==", token));
+        const docs = await (0, firestore_1.getDocs)(q);
+        const dto = new user_data_dto_1.UserDataDto();
+        docs.forEach((doc) => {
+            dto.fromJson(doc.data());
+        });
+        return dto;
+    }
+    fetchUserSettings(userData) {
+        let settings = new user_settings_dto_1.UserSettingsDto();
+        settings.email = userData.email;
+        settings.isAnonym = userData.isAnonym;
+        settings.name = userData.name;
+        settings.phoneNumber = userData.phoneNumber;
+        settings.photoUrl = userData.profileImage;
+        return settings;
+    }
+    async updateUserData(userData, params) {
+        userData.isAnonym = params.isAnonym;
+        userData.name = params.name;
+        userData.email = params.email;
+        userData.phoneNumber = params.phoneNumber;
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, userData.uid, userData.toJson());
+        return userData;
+    }
+    async setProfileImageToDb(uid, profileImage) {
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, uid, { profileImage: profileImage });
+    }
     async deleteUserProfileImageFromStorage(uid) {
         try {
             await this.network.deleteImageFromStorage(uid, "profilePhotos");
@@ -121,11 +142,11 @@ let UserService = class UserService {
         const currentUser = await this.getUserForDelete(uid);
         const postsCol = await (0, firestore_1.collection)(this.network.firestore, firebase_column_enums_1.FirebaseColumns.POSTS);
         currentUser.posts.forEach(async (data) => {
-            const findPosts = (0, firestore_1.query)(postsCol, (0, firestore_1.where)('id', '==', data.id));
+            const findPosts = (0, firestore_1.query)(postsCol, (0, firestore_1.where)("id", "==", data.id));
             const foundPosts = await (0, firestore_1.getDocs)(findPosts);
             foundPosts.forEach(async (post) => {
-                await (0, firestore_1.deleteDoc)((0, firestore_1.doc)(postsCol, post.data()['id']));
-                await this.network.deleteImageFromStorage(post.data()['id'], "posts");
+                await (0, firestore_1.deleteDoc)((0, firestore_1.doc)(postsCol, post.data()["id"]));
+                await this.network.deleteImageFromStorage(post.data()["id"], "posts");
             });
         });
     }
@@ -137,7 +158,7 @@ let UserService = class UserService {
     }
     async deleteUserFromAuthService(uid) {
         const userData = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, uid);
-        const user = await (0, auth_1.signInWithEmailAndPassword)(this.network.auth, userData.data()['email'], userData.data()['password']);
+        const user = await (0, auth_1.signInWithEmailAndPassword)(this.network.auth, userData.data()["email"], userData.data()["password"]);
         await (0, auth_1.deleteUser)(user.user);
     }
 };
