@@ -50,7 +50,6 @@ export class CommunityService {
   }
 
   async getMoreCommunityShares(params:GetMorePostDto):Promise<PostDto[]>{
-    //TODO: Bug! Always sends data. This facing post loop issue
     const timestampQuery = query(
       collection(this.network.firestore, FirebaseColumns.POSTS),
       orderBy("timestamp", "desc"),
