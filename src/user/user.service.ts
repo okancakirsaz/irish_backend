@@ -199,6 +199,8 @@ export class UserService {
     return userAsDto;
   }
 
+
+  //Deactivated. Bug here
   private async deleteUserFromAuthService(uid: string) {
     const userData = await this.network.getDoc(FirebaseColumns.USERS, uid);
     const user: UserCredential = await signInWithEmailAndPassword(

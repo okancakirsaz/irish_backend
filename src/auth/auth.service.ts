@@ -41,6 +41,7 @@ export class AuthService {
     userData: UserDataDto,
     createdUser: User
   ): Promise<UserDataDto> {
+    userData.password = null;
     userData.uid = createdUser.uid;
     userData.token = await createdUser.getIdToken();
     await FirebaseServices.instance.setData(
@@ -68,6 +69,7 @@ export class AuthService {
       ).data();
       user.fromJson(userData);
       await signOut(FirebaseServices.instance.auth);
+      console.log(user);
       return user;
     } catch (_) {
       return null;
