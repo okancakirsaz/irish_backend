@@ -9,8 +9,8 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { UserDataDto } from "src/auth/dto/user_data.dto";
-import { PostDto } from "src/community/dto/post.dto";
+import { UserDataDto } from "src/features/auth/dto/user_data.dto";
+import { PostDto } from "src/features/community/dto/post.dto";
 import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 import { FirebaseServices } from "src/core/firebase_services";
 import { IUserDataTypes } from "./core/user_data_types";

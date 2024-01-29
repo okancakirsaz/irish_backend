@@ -3,7 +3,7 @@ import { PostDto } from "./dto/post.dto";
 import { FirebaseServices } from "src/core/firebase_services";
 import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 import { collection, doc, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
-import { UserDataDto } from "src/auth/dto/user_data.dto";
+import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 
 @Injectable()

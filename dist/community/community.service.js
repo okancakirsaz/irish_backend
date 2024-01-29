@@ -12,7 +12,7 @@ const post_dto_1 = require("./dto/post.dto");
 const firebase_services_1 = require("../core/firebase_services");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const firestore_1 = require("firebase/firestore");
-const user_data_dto_1 = require("../auth/dto/user_data.dto");
+const user_data_dto_1 = require("../features/auth/dto/user_data.dto");
 let CommunityService = class CommunityService {
     constructor() {
         this.network = firebase_services_1.FirebaseServices.instance;

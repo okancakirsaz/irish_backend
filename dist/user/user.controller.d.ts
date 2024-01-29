@@ -6,9 +6,9 @@ import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
 export declare class UserController {
     private readonly service;
     constructor(service: UserService);
-    getUserPosts(header: any): Promise<import("../community/dto/post.dto").PostDto[]>;
-    getUserScores(header: any): Promise<import("../community/dto/post.dto").PostDto[]>;
-    getUserFavoriteFoods(header: any): Promise<import("../community/dto/post.dto").PostDto[]>;
+    getUserPosts(header: any): Promise<import("../features/community/dto/post.dto").PostDto[]>;
+    getUserScores(header: any): Promise<import("../features/community/dto/post.dto").PostDto[]>;
+    getUserFavoriteFoods(header: any): Promise<import("../features/community/dto/post.dto").PostDto[]>;
     getUserSettings(header: any): Promise<UserSettingsDto>;
     setNewUserSettings(params: UserSettingsDto, headers: any): Promise<UserSettingsDto>;
     changeProfilePhoto(params: ChangeProfilePhotoDto): Promise<ChangeProfilePhotoDto>;

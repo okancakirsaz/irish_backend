@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const firestore_1 = require("firebase/firestore");
-const user_data_dto_1 = require("../auth/dto/user_data.dto");
+const user_data_dto_1 = require("../features/auth/dto/user_data.dto");
 const firebase_column_enums_1 = require("../core/enums/firebase_column_enums");
 const firebase_services_1 = require("../core/firebase_services");
 const user_settings_dto_1 = require("./dto/user_settings.dto");

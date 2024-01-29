@@ -8,18 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
-const community_module_1 = require("./community/community.module");
-const menu_module_1 = require("./menu/menu.module");
-const user_module_1 = require("./user/user.module");
-const games_module_1 = require("./games/games.module");
+const auth_module_1 = require("./features/auth/auth.module");
+const community_module_1 = require("./features/community/community.module");
+const menu_module_1 = require("./features/menu/menu.module");
+const user_module_1 = require("./features/user/user.module");
+const games_module_1 = require("./features/games/games.module");
+const order_module_1 = require("./features/order/order.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule
+            auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule, order_module_1.OrderModule
         ],
         controllers: [],
     })

@@ -1,5 +1,5 @@
-import { PostDto } from "src/community/dto/post.dto"
-import { UserSettingsDto } from "src/user/dto/user_settings.dto"
+import { PostDto } from "src/features/community/dto/post.dto"
+import { UserSettingsDto } from "src/features/user/dto/user_settings.dto"
 
 export class UserDataDto{
     name:string
