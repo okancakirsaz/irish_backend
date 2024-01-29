@@ -31,11 +31,8 @@ export class OrderService {
         const doc = await this.network.getDoc(FirebaseColumns.MENU,idList[i]);
       if(doc.data()==null){
         isValid=false;
-        console.log(`For içi: ${isValid}`)
       }
-    }
-   
-    console.log(isValid)
+    }   
     return isValid;
   }
 }

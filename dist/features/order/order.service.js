@@ -33,10 +33,8 @@ let OrderService = class OrderService {
             const doc = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.MENU, idList[i]);
             if (doc.data() == null) {
                 isValid = false;
-                console.log(`For içi: ${isValid}`);
             }
         }
-        console.log(isValid);
         return isValid;
     }
 };
