@@ -7,5 +7,7 @@ var FirebaseColumns;
     FirebaseColumns["POSTS"] = "POSTS";
     FirebaseColumns["MENU"] = "MENU";
     FirebaseColumns["EVENTS"] = "EVENTS";
+    FirebaseColumns["SYSTEM_LOGS"] = "SYSTEM_LOGS";
+    FirebaseColumns["ORDERS"] = "ORDERS";
 })(FirebaseColumns || (exports.FirebaseColumns = FirebaseColumns = {}));
 //# sourceMappingURL=firebase_column_enums.js.map
