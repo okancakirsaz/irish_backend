@@ -13,6 +13,9 @@ const firebase_services_1 = require("../../core/firebase_services");
 const firebase_column_enums_1 = require("../../core/enums/firebase_column_enums");
 const payment_response_dto_1 = require("./dto/payment_response.dto");
 const order_response_dto_1 = require("./dto/order_response.dto");
+const user_data_dto_1 = require("../auth/dto/user_data.dto");
+const menu_item_dto_1 = require("../menu/dto/menu_item.dto");
+const favorite_food_dto_1 = require("../user/dto/favorite_food.dto");
 let OrderService = class OrderService {
     constructor() {
         this.network = firebase_services_1.FirebaseServices.instance;
@@ -53,6 +56,7 @@ let OrderService = class OrderService {
         response.isOrderReady = false;
         response.orderId = await this.createOrderNumber();
         await this.network.setData(response.toJson(), firebase_column_enums_1.FirebaseColumns.ORDERS, `${response.orderId}`);
+        await this.updateUserFavoriteFoods(params);
         return response;
     }
     async createOrderNumber() {
@@ -75,6 +79,40 @@ let OrderService = class OrderService {
         }
         await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.SYSTEM_LOGS, "order-log", newOrderData);
         return newOrderData['lastOrderCount'];
+    }
+    async updateUserFavoriteFoods(params) {
+        const user = await this.getUser(params.userId);
+        const foodList = [];
+        for (let i = 0; i <= params.orderList.length - 1; i++) {
+            const favoriteFoodData = new favorite_food_dto_1.FavoriteFoodDto();
+            const menuItem = await this.getMenuItem(params.orderList[i]);
+            favoriteFoodData.photo = menuItem.image,
+                favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user);
+            favoriteFoodData.foodName = menuItem.name;
+            foodList.push(favoriteFoodData.toJson());
+        }
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.userId, { "favoriteFoods": foodList });
+    }
+    async getUser(userId) {
+        const userData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, userId)).data();
+        const userDataAsModel = new user_data_dto_1.UserDataDto();
+        userDataAsModel.fromJson(userData);
+        return userDataAsModel;
+    }
+    async getMenuItem(itemName) {
+        const menuData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.MENU, itemName)).data();
+        const menuDataAsModel = new menu_item_dto_1.MenuItemDto();
+        menuDataAsModel.fromJson(menuData);
+        return menuDataAsModel;
+    }
+    getFavoriteFoodCount(foodName, userData) {
+        let count = 1;
+        for (let i = 0; i <= userData.favoriteFoods.length - 1; i++) {
+            if (foodName == userData.favoriteFoods[i].foodName) {
+                count = userData.favoriteFoods[i].count + 1;
+            }
+        }
+        return count;
     }
 };
 exports.OrderService = OrderService;

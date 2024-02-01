@@ -11,4 +11,8 @@ export declare class OrderService {
     paymentGateway(params: PaymentRequestDto): Promise<PaymentResponseDto>;
     createOrder(params: OrderRequestDto): Promise<OrderResponseDto>;
     private createOrderNumber;
+    private updateUserFavoriteFoods;
+    private getUser;
+    private getMenuItem;
+    private getFavoriteFoodCount;
 }

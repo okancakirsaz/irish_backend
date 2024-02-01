@@ -1,4 +1,5 @@
 import { PostDto } from "src/features/community/dto/post.dto"
+import { FavoriteFoodDto } from "src/features/user/dto/favorite_food.dto"
 import { UserSettingsDto } from "src/features/user/dto/user_settings.dto"
 
 export class UserDataDto{
@@ -13,8 +14,7 @@ export class UserDataDto{
     posts:Array<PostDto>
     //TODO: Scores DTO here
     scores:Array<any>
-    //TODO: Favorite foods DTO here
-    favoriteFoods:Array<any>
+    favoriteFoods:Array<FavoriteFoodDto>
     isAnonym:boolean
 
     fromJson(json){
