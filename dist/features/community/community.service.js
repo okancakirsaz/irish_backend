@@ -58,6 +58,16 @@ let CommunityService = class CommunityService {
         });
         return response;
     }
+    async getAllUsers() {
+        const users = await this.network.getDocs(firebase_column_enums_1.FirebaseColumns.USERS);
+        const userListAsModel = [];
+        for (let i = 0; i <= users.length - 1; i++) {
+            const dataAsModel = new user_data_dto_1.UserDataDto();
+            dataAsModel.fromJson(users[i]);
+            userListAsModel.push(dataAsModel);
+        }
+        return userListAsModel;
+    }
 };
 exports.CommunityService = CommunityService;
 exports.CommunityService = CommunityService = __decorate([

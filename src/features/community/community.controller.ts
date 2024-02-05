@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post } from "@nestjs/common";
 import { CommunityService } from "./community.service";
 import { PostDto } from "./dto/post.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
+import { UserDataDto } from "../auth/dto/user_data.dto";
 
 @Controller('community')
 export class CommunityController{
@@ -72,5 +73,14 @@ export class CommunityController{
                 "profileImage":"https://abcgazetesi.com/d/news/8331.jpg"
             }
     ]
+    }
+
+    @Get('users')
+   async getUsers():Promise<UserDataDto[]>{
+        try {
+            return await this.service.getAllUsers();
+        } catch (error) {
+            throw Error(error);
+        } 
     }
 }

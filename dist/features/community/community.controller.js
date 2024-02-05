@@ -79,6 +79,14 @@ let CommunityController = class CommunityController {
             }
         ];
     }
+    async getUsers() {
+        try {
+            return await this.service.getAllUsers();
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.CommunityController = CommunityController;
 __decorate([
@@ -107,6 +115,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CommunityController.prototype, "getCustomers", null);
+__decorate([
+    (0, common_1.Get)('users'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CommunityController.prototype, "getUsers", null);
 exports.CommunityController = CommunityController = __decorate([
     (0, common_1.Controller)('community'),
     __metadata("design:paramtypes", [community_service_1.CommunityService])

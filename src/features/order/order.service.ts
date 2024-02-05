@@ -59,6 +59,7 @@ export class OrderService {
     response.totalPrice=params.totalPrice;
     response.timestamp=params.timestamp;
     response.isOrderReady=false;
+    response.userId = params.userId;
     response.orderId=await this.createOrderNumber();
     await this.network.setData(response.toJson(),FirebaseColumns.ORDERS,`${response.orderId}`);
     await this.updateUserFavoriteFoods(params);

@@ -38,27 +38,26 @@ let MenuService = class MenuService {
     }
     async updateMenuElement(params) {
         try {
-            const newElement = new menu_item_dto_1.MenuItemDto();
             let dataForSend = {};
-            newElement.price = params.price;
-            newElement.materials = params.materials;
+            params.price = params.price;
+            params.materials = params.materials;
             if (params.image != "") {
                 const imagePath = await this.network.setImageToStorage(params.image, params.name, "menu");
-                newElement.image = imagePath;
+                params.image = imagePath;
                 dataForSend = {
-                    "image": newElement.image,
-                    "price": newElement.price,
-                    "materials": newElement.materials
+                    image: params.image,
+                    price: params.price,
+                    materials: params.materials,
                 };
             }
             else {
                 dataForSend = {
-                    "price": newElement.price,
-                    "materials": newElement.materials
+                    price: params.price,
+                    materials: params.materials,
                 };
             }
             await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.MENU, params.name, dataForSend);
-            return newElement;
+            return params;
         }
         catch (error) {
             throw Error(error);

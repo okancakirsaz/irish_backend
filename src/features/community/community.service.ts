@@ -64,4 +64,16 @@ export class CommunityService {
     });
     return response;
   }
+
+
+  async getAllUsers():Promise<UserDataDto[]>{
+   const users = await this.network.getDocs(FirebaseColumns.USERS);
+   const userListAsModel:UserDataDto[] = [];
+   for(let i=0;i<=users.length-1;i++){
+   const dataAsModel:UserDataDto = new UserDataDto();
+   dataAsModel.fromJson(users[i]);
+   userListAsModel.push(dataAsModel);
+   }
+   return userListAsModel; 
+  }
 }

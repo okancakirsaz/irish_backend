@@ -1,6 +1,7 @@
 import { CommunityService } from "./community.service";
 import { PostDto } from "./dto/post.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
+import { UserDataDto } from "../auth/dto/user_data.dto";
 export declare class CommunityController {
     private readonly service;
     constructor(service: CommunityService);
@@ -15,4 +16,5 @@ export declare class CommunityController {
         token: string;
         profileImage: string;
     }[]>;
+    getUsers(): Promise<UserDataDto[]>;
 }

@@ -7,6 +7,7 @@ class OrderResponseDto {
             "orderId": this.orderId,
             "orderList": this.orderList,
             "totalPrice": this.totalPrice,
+            "userId": this.userId,
             "timestamp": this.timestamp,
             "isOrderReady": this.isOrderReady
         };
