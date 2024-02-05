@@ -25,6 +25,55 @@ let MenuService = class MenuService {
         });
         return responseAsModel;
     }
+    async createMenuElement(params) {
+        try {
+            const imagePath = await this.network.setImageToStorage(params.image, params.name, "menu");
+            params.image = imagePath;
+            await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.MENU, params.name);
+            return params;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async updateMenuElement(params) {
+        try {
+            const newElement = new menu_item_dto_1.MenuItemDto();
+            let dataForSend = {};
+            newElement.price = params.price;
+            newElement.materials = params.materials;
+            if (params.image != "") {
+                const imagePath = await this.network.setImageToStorage(params.image, params.name, "menu");
+                newElement.image = imagePath;
+                dataForSend = {
+                    "image": newElement.image,
+                    "price": newElement.price,
+                    "materials": newElement.materials
+                };
+            }
+            else {
+                dataForSend = {
+                    "price": newElement.price,
+                    "materials": newElement.materials
+                };
+            }
+            await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.MENU, params.name, dataForSend);
+            return newElement;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async deleteMenuElement(params) {
+        try {
+            await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.MENU, params.name);
+            await this.network.deleteImageFromStorage(params.name, "menu");
+            return params;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.MenuService = MenuService;
 exports.MenuService = MenuService = __decorate([

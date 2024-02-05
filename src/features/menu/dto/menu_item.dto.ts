@@ -10,4 +10,13 @@ export class MenuItemDto{
         this.image=json['image']
         this.materials=json['materials']
     }
+
+    toJson(){
+        return {
+            "name":this.name,
+            "price":this.price,
+            "image":this.image,
+            "materials":this.materials
+        }
+    }
 }

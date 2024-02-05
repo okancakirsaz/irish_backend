@@ -8,6 +8,14 @@ class MenuItemDto {
         this.image = json['image'];
         this.materials = json['materials'];
     }
+    toJson() {
+        return {
+            "name": this.name,
+            "price": this.price,
+            "image": this.image,
+            "materials": this.materials
+        };
+    }
 }
 exports.MenuItemDto = MenuItemDto;
 //# sourceMappingURL=menu_item.dto.js.map

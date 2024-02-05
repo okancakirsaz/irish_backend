@@ -4,4 +4,10 @@ export declare class MenuItemDto {
     image: string;
     materials: string[];
     fromJson(json: any): void;
+    toJson(): {
+        name: string;
+        price: string;
+        image: string;
+        materials: string[];
+    };
 }
