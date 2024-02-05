@@ -15,4 +15,5 @@ export declare class OrderService {
     private getUser;
     private getMenuItem;
     private getFavoriteFoodCount;
+    getOrders(): Promise<any[]>;
 }

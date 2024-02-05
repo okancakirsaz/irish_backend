@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { OrderService } from './order.service';
 import { BucketVerificationRequestDto } from "./dto/bucket_verification_request.dto";
 import { BucketVerificationResponseDto } from "./dto/bucket_verification_response.dto";
@@ -31,6 +31,24 @@ export class OrderController{
   async createOrder(@Body() params:OrderRequestDto){
     try {
       return await this.service.createOrder(params);
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Get('orders')
+  async getOrders(){
+    try {
+      return await this.service.getOrders();
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Post('submit-order')
+  async submitOrder(){
+    try {
+      //TODO: Contuniue here
     } catch (error) {
       throw Error(error);
     }

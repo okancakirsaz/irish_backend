@@ -86,7 +86,7 @@ let OrderService = class OrderService {
         const foodList = [];
         for (let i = 0; i <= params.orderList.length - 1; i++) {
             const favoriteFoodData = new favorite_food_dto_1.FavoriteFoodDto();
-            const menuItem = await this.getMenuItem(params.orderList[i]);
+            const menuItem = await this.getMenuItem(params.orderList[i]['name']);
             favoriteFoodData.photo = menuItem.image,
                 favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user);
             favoriteFoodData.foodName = menuItem.name;
@@ -114,6 +114,9 @@ let OrderService = class OrderService {
             }
         }
         return count;
+    }
+    async getOrders() {
+        return await this.network.getDocs(firebase_column_enums_1.FirebaseColumns.ORDERS);
     }
 };
 exports.OrderService = OrderService;

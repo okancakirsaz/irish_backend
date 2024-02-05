@@ -9,4 +9,6 @@ export declare class OrderController {
     bucketVerification(params: BucketVerificationRequestDto): Promise<BucketVerificationResponseDto>;
     payment(params: PaymentRequestDto): Promise<import("./dto/payment_response.dto").PaymentResponseDto>;
     createOrder(params: OrderRequestDto): Promise<import("./dto/order_response.dto").OrderResponseDto>;
+    getOrders(): Promise<any[]>;
+    submitOrder(): Promise<void>;
 }

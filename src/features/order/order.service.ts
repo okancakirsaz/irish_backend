@@ -93,7 +93,7 @@ export class OrderService {
     const foodList:any[] = [];
     for(let i=0;i<=params.orderList.length-1;i++){
       const favoriteFoodData:FavoriteFoodDto = new FavoriteFoodDto();
-      const menuItem:MenuItemDto = await this.getMenuItem(params.orderList[i]);
+      const menuItem:MenuItemDto = await this.getMenuItem(params.orderList[i]['name']);
       favoriteFoodData.photo=menuItem.image,
       favoriteFoodData.count=this.getFavoriteFoodCount(menuItem.name,user);
       favoriteFoodData.foodName=menuItem.name;
@@ -123,5 +123,9 @@ export class OrderService {
       }
     }
     return count;
+  }
+
+  async getOrders(){
+    return await this.network.getDocs(FirebaseColumns.ORDERS);
   }
 }

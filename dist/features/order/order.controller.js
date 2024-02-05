@@ -46,6 +46,21 @@ let OrderController = class OrderController {
             throw Error(error);
         }
     }
+    async getOrders() {
+        try {
+            return await this.service.getOrders();
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async submitOrder() {
+        try {
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.OrderController = OrderController;
 __decorate([
@@ -69,6 +84,18 @@ __decorate([
     __metadata("design:paramtypes", [order_request_dto_1.OrderRequestDto]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "createOrder", null);
+__decorate([
+    (0, common_1.Get)('orders'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "getOrders", null);
+__decorate([
+    (0, common_1.Post)('submit-order'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "submitOrder", null);
 exports.OrderController = OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [order_service_1.OrderService])
