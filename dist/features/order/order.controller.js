@@ -58,8 +58,9 @@ let OrderController = class OrderController {
             throw Error(error);
         }
     }
-    async submitOrder() {
+    async submitOrder(params) {
         try {
+            return await this.service.submitOrder(params);
         }
         catch (error) {
             throw Error(error);
@@ -104,8 +105,9 @@ __decorate([
 ], OrderController.prototype, "getOrders", null);
 __decorate([
     (0, common_1.Post)('change-order-state'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [order_response_dto_1.OrderResponseDto]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "submitOrder", null);
 __decorate([

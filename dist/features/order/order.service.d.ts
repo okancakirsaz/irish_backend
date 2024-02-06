@@ -17,4 +17,5 @@ export declare class OrderService {
     private getFavoriteFoodCount;
     getOrders(): Promise<any[]>;
     deleteOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
+    submitOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
 }

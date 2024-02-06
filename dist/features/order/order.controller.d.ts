@@ -13,6 +13,6 @@ export declare class OrderController {
     payment(params: PaymentRequestDto): Promise<import("./dto/payment_response.dto").PaymentResponseDto>;
     createOrder(params: OrderRequestDto): Promise<OrderResponseDto>;
     getOrders(): Promise<any[]>;
-    submitOrder(): Promise<void>;
+    submitOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
     deleteOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
 }

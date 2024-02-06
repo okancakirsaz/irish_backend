@@ -27,7 +27,8 @@ let OrderService = class OrderService {
             response.isAllValid = true;
         }
         else {
-            response.errorMessage = "Menüde artık bulunmayan bir şey sipariş ettiniz.";
+            response.errorMessage =
+                "Menüde artık bulunmayan bir şey sipariş ettiniz.";
             response.isAllValid = false;
         }
         return response;
@@ -64,35 +65,38 @@ let OrderService = class OrderService {
         const lastOrderData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.SYSTEM_LOGS, "order-log")).data();
         const dateObject = new Date();
         let newOrderData = {
-            day: lastOrderData['day'],
-            month: lastOrderData['month'],
-            year: lastOrderData['year'],
-            lastOrderCount: lastOrderData['lastOrderCount']
+            day: lastOrderData["day"],
+            month: lastOrderData["month"],
+            year: lastOrderData["year"],
+            lastOrderCount: lastOrderData["lastOrderCount"],
         };
-        if (newOrderData['day'] != dateObject.getDate() || newOrderData['month'] != dateObject.getMonth() + 1) {
-            newOrderData['lastOrderCount'] = 1;
-            newOrderData['day'] = dateObject.getDate();
-            newOrderData['month'] = dateObject.getMonth() + 1;
-            newOrderData['year'] = dateObject.getFullYear();
+        if (newOrderData["day"] != dateObject.getDate() ||
+            newOrderData["month"] != dateObject.getMonth() + 1) {
+            newOrderData["lastOrderCount"] = 1;
+            newOrderData["day"] = dateObject.getDate();
+            newOrderData["month"] = dateObject.getMonth() + 1;
+            newOrderData["year"] = dateObject.getFullYear();
         }
         else {
-            newOrderData['lastOrderCount'] += 1;
+            newOrderData["lastOrderCount"] += 1;
         }
         await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.SYSTEM_LOGS, "order-log", newOrderData);
-        return newOrderData['lastOrderCount'];
+        return newOrderData["lastOrderCount"];
     }
     async updateUserFavoriteFoods(params) {
         const user = await this.getUser(params.userId);
         const foodList = [];
         for (let i = 0; i <= params.orderList.length - 1; i++) {
             const favoriteFoodData = new favorite_food_dto_1.FavoriteFoodDto();
-            const menuItem = await this.getMenuItem(params.orderList[i]['name']);
-            favoriteFoodData.photo = menuItem.image,
-                favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user);
+            const menuItem = await this.getMenuItem(params.orderList[i]["name"]);
+            (favoriteFoodData.photo = menuItem.image),
+                (favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user));
             favoriteFoodData.foodName = menuItem.name;
             foodList.push(favoriteFoodData.toJson());
         }
-        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.userId, { "favoriteFoods": foodList });
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.userId, {
+            favoriteFoods: foodList,
+        });
     }
     async getUser(userId) {
         const userData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, userId)).data();
@@ -120,6 +124,11 @@ let OrderService = class OrderService {
     }
     async deleteOrder(params) {
         await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.ORDERS, `${params.orderId}`);
+        return params;
+    }
+    async submitOrder(params) {
+        params.isOrderReady = true;
+        await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.ORDERS, `${params.orderId}`);
         return params;
     }
 };

@@ -50,9 +50,10 @@ export class OrderController{
   }
 
   @Post('change-order-state')
-  async submitOrder(){
+  async submitOrder(@Body() params:OrderResponseDto){
+    //TODO: Implement websocket
     try {
-      //TODO: Contuniue here
+      return await this.service.submitOrder(params);
     } catch (error) {
       throw Error(error);
     }
