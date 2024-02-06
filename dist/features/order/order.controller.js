@@ -18,9 +18,12 @@ const order_service_1 = require("./order.service");
 const bucket_verification_request_dto_1 = require("./dto/bucket_verification_request.dto");
 const payment_request_dto_1 = require("./dto/payment_request.dto");
 const order_request_dto_1 = require("./dto/order_request.dto");
+const order_response_dto_1 = require("./dto/order_response.dto");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let OrderController = class OrderController {
-    constructor(service) {
+    constructor(service, webSocket) {
         this.service = service;
+        this.webSocket = webSocket;
     }
     async bucketVerification(params) {
         try {
@@ -40,6 +43,7 @@ let OrderController = class OrderController {
     }
     async createOrder(params) {
         try {
+            this.webSocket.handleOrderReceivedCase(params);
             return await this.service.createOrder(params);
         }
         catch (error) {
@@ -56,6 +60,14 @@ let OrderController = class OrderController {
     }
     async submitOrder() {
         try {
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async deleteOrder(params) {
+        try {
+            return await this.service.deleteOrder(params);
         }
         catch (error) {
             throw Error(error);
@@ -91,13 +103,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "getOrders", null);
 __decorate([
-    (0, common_1.Post)('submit-order'),
+    (0, common_1.Post)('change-order-state'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "submitOrder", null);
+__decorate([
+    (0, common_1.Post)('delete-order'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [order_response_dto_1.OrderResponseDto]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "deleteOrder", null);
 exports.OrderController = OrderController = __decorate([
     (0, common_1.Controller)('order'),
-    __metadata("design:paramtypes", [order_service_1.OrderService])
+    __metadata("design:paramtypes", [order_service_1.OrderService, web_socket_gateway_1.SocketGateway])
 ], OrderController);
 //# sourceMappingURL=order.controller.js.map

@@ -10,12 +10,13 @@ exports.OrderModule = void 0;
 const common_1 = require("@nestjs/common");
 const order_service_1 = require("./order.service");
 const order_controller_1 = require("./order.controller");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
 exports.OrderModule = OrderModule = __decorate([
     (0, common_1.Module)({
-        providers: [order_service_1.OrderService],
+        providers: [order_service_1.OrderService, web_socket_gateway_1.SocketGateway],
         controllers: [order_controller_1.OrderController]
     })
 ], OrderModule);

@@ -118,6 +118,10 @@ let OrderService = class OrderService {
     async getOrders() {
         return await this.network.getDocs(firebase_column_enums_1.FirebaseColumns.ORDERS);
     }
+    async deleteOrder(params) {
+        await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.ORDERS, `${params.orderId}`);
+        return params;
+    }
 };
 exports.OrderService = OrderService;
 exports.OrderService = OrderService = __decorate([

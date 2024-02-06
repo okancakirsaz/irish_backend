@@ -14,6 +14,7 @@ const menu_module_1 = require("./features/menu/menu.module");
 const user_module_1 = require("./features/user/user.module");
 const games_module_1 = require("./features/games/games.module");
 const order_module_1 = require("./features/order/order.module");
+const web_socket_gateway_1 = require("./core/web_socket_gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -22,6 +23,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule, order_module_1.OrderModule
         ],
+        providers: [web_socket_gateway_1.SocketGateway],
         controllers: [],
     })
 ], AppModule);

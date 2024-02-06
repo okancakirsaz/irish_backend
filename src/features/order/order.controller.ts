@@ -4,10 +4,13 @@ import { BucketVerificationRequestDto } from "./dto/bucket_verification_request.
 import { BucketVerificationResponseDto } from "./dto/bucket_verification_response.dto";
 import { PaymentRequestDto } from "./dto/payment_request.dto";
 import { OrderRequestDto } from "./dto/order_request.dto";
+import { OrderResponseDto } from "./dto/order_response.dto";
+import { SocketGateway } from "src/core/web_socket_gateway";
 
 @Controller('order')
 export class OrderController{
-    constructor(private readonly service:OrderService){}
+    constructor(private readonly service:OrderService,private readonly webSocket:SocketGateway){}
+
 
    @Post('verification')
   async bucketVerification(@Body() params:BucketVerificationRequestDto):Promise<BucketVerificationResponseDto>{
@@ -30,6 +33,7 @@ export class OrderController{
   @Post('create-order')
   async createOrder(@Body() params:OrderRequestDto){
     try {
+      this.webSocket.handleOrderReceivedCase(params);
       return await this.service.createOrder(params);
     } catch (error) {
       throw Error(error);
@@ -45,10 +49,19 @@ export class OrderController{
     }
   }
 
-  @Post('submit-order')
+  @Post('change-order-state')
   async submitOrder(){
     try {
       //TODO: Contuniue here
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Post('delete-order')
+  async deleteOrder(@Body() params:OrderResponseDto){
+    try {
+     return await this.service.deleteOrder(params);
     } catch (error) {
       throw Error(error);
     }

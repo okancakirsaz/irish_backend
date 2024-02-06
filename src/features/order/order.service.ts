@@ -128,4 +128,10 @@ export class OrderService {
   async getOrders(){
     return await this.network.getDocs(FirebaseColumns.ORDERS);
   }
+
+
+  async deleteOrder(params:OrderResponseDto){
+      await this.network.deleteDoc(FirebaseColumns.ORDERS,`${params.orderId}`);
+      return params; 
+  }
 }
