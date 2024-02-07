@@ -8,13 +8,16 @@ import { PaymentResponseDto } from "./dto/payment_response.dto";
 import { OrderRequestDto } from "./dto/order_request.dto";
 import { OrderResponseDto } from "./dto/order_response.dto";
 import { UserDataDto } from "../auth/dto/user_data.dto";
-import { User } from "@firebase/auth";
 import { MenuItemDto } from "../menu/dto/menu_item.dto";
 import { FavoriteFoodDto } from "../user/dto/favorite_food.dto";
+import { SocketGateway } from "src/core/web_socket_gateway";
 
 @Injectable()
 export class OrderService {
   private readonly network: FirebaseServices = FirebaseServices.instance;
+  constructor(private readonly socket:SocketGateway) {
+    
+  }
 
   async bucketVerification(
     params: BucketVerificationRequestDto
@@ -66,6 +69,7 @@ export class OrderService {
       `${response.orderId}`
     );
     await this.updateUserFavoriteFoods(params);
+    this.socket.handleOrderReceivedCase(response);
     return response;
   }
 

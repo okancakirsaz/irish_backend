@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const common_1 = require("@nestjs/common");
@@ -16,8 +19,10 @@ const order_response_dto_1 = require("./dto/order_response.dto");
 const user_data_dto_1 = require("../auth/dto/user_data.dto");
 const menu_item_dto_1 = require("../menu/dto/menu_item.dto");
 const favorite_food_dto_1 = require("../user/dto/favorite_food.dto");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let OrderService = class OrderService {
-    constructor() {
+    constructor(socket) {
+        this.socket = socket;
         this.network = firebase_services_1.FirebaseServices.instance;
     }
     async bucketVerification(params) {
@@ -59,6 +64,7 @@ let OrderService = class OrderService {
         response.orderId = await this.createOrderNumber();
         await this.network.setData(response.toJson(), firebase_column_enums_1.FirebaseColumns.ORDERS, `${response.orderId}`);
         await this.updateUserFavoriteFoods(params);
+        this.socket.handleOrderReceivedCase(response);
         return response;
     }
     async createOrderNumber() {
@@ -134,6 +140,7 @@ let OrderService = class OrderService {
 };
 exports.OrderService = OrderService;
 exports.OrderService = OrderService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [web_socket_gateway_1.SocketGateway])
 ], OrderService);
 //# sourceMappingURL=order.service.js.map

@@ -43,7 +43,6 @@ let OrderController = class OrderController {
     }
     async createOrder(params) {
         try {
-            this.webSocket.handleOrderReceivedCase(params);
             return await this.service.createOrder(params);
         }
         catch (error) {

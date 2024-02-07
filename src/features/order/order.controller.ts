@@ -33,7 +33,6 @@ export class OrderController{
   @Post('create-order')
   async createOrder(@Body() params:OrderRequestDto){
     try {
-      this.webSocket.handleOrderReceivedCase(params);
       return await this.service.createOrder(params);
     } catch (error) {
       throw Error(error);
@@ -51,7 +50,6 @@ export class OrderController{
 
   @Post('change-order-state')
   async submitOrder(@Body() params:OrderResponseDto){
-    //TODO: Implement websocket
     try {
       return await this.service.submitOrder(params);
     } catch (error) {

@@ -1,28 +1,17 @@
-import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
-import { Server,Socket } from 'socket.io';
-import { OrderRequestDto } from "src/features/order/dto/order_request.dto";
+import { MessageBody,SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { Server } from 'socket.io';
+import { OrderResponseDto } from "src/features/order/dto/order_response.dto";
 
 @WebSocketGateway()
-export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class SocketGateway{
 
 @WebSocketServer() 
-server;
+server:Server = new Server();
 
 
-handleDisconnect() {
-
-}
-
-handleConnection(@MessageBody() msg:string, @ConnectedSocket() client:Socket) {
-   
-}
-
-//TODO: I cant receive data solve it
-
-@SubscribeMessage("send_message")
-handleOrderReceivedCase(@MessageBody() message:OrderRequestDto){
-    console.log(message);
-    this.server.emit("send_message",message);
+@SubscribeMessage("new_order")
+handleOrderReceivedCase(@MessageBody() body:OrderResponseDto){
+    this.server.emit("new_order",body);
 }
 
 }

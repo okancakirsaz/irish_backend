@@ -15,34 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SocketGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
-const order_request_dto_1 = require("../features/order/dto/order_request.dto");
+const order_response_dto_1 = require("../features/order/dto/order_response.dto");
 let SocketGateway = class SocketGateway {
-    handleDisconnect() {
+    constructor() {
+        this.server = new socket_io_1.Server();
     }
-    handleConnection(msg, client) {
-    }
-    handleOrderReceivedCase(message) {
-        console.log(message);
-        this.server.emit("send_message", message);
+    handleOrderReceivedCase(body) {
+        this.server.emit("new_order", body);
     }
 };
 exports.SocketGateway = SocketGateway;
 __decorate([
     (0, websockets_1.WebSocketServer)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", socket_io_1.Server)
 ], SocketGateway.prototype, "server", void 0);
 __decorate([
-    __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
-    __metadata("design:returntype", void 0)
-], SocketGateway.prototype, "handleConnection", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)("send_message"),
+    (0, websockets_1.SubscribeMessage)("new_order"),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [order_request_dto_1.OrderRequestDto]),
+    __metadata("design:paramtypes", [order_response_dto_1.OrderResponseDto]),
     __metadata("design:returntype", void 0)
 ], SocketGateway.prototype, "handleOrderReceivedCase", null);
 exports.SocketGateway = SocketGateway = __decorate([

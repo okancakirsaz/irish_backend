@@ -1,9 +1,6 @@
-import { OnGatewayConnection, OnGatewayDisconnect } from "@nestjs/websockets";
-import { Socket } from 'socket.io';
-import { OrderRequestDto } from "src/features/order/dto/order_request.dto";
-export declare class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
-    server: any;
-    handleDisconnect(): void;
-    handleConnection(msg: string, client: Socket): void;
-    handleOrderReceivedCase(message: OrderRequestDto): void;
+import { Server } from 'socket.io';
+import { OrderResponseDto } from "src/features/order/dto/order_response.dto";
+export declare class SocketGateway {
+    server: Server;
+    handleOrderReceivedCase(body: OrderResponseDto): void;
 }
