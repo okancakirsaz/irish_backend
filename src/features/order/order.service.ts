@@ -68,7 +68,9 @@ export class OrderService {
       FirebaseColumns.ORDERS,
       `${response.orderId}`
     );
-    await this.updateUserFavoriteFoods(params);
+    if(params.userId!="admin-panel"){
+      await this.updateUserFavoriteFoods(params);
+    }
     this.socket.handleOrderReceivedCase(response);
     return response;
   }

@@ -63,7 +63,9 @@ let OrderService = class OrderService {
         response.userId = params.userId;
         response.orderId = await this.createOrderNumber();
         await this.network.setData(response.toJson(), firebase_column_enums_1.FirebaseColumns.ORDERS, `${response.orderId}`);
-        await this.updateUserFavoriteFoods(params);
+        if (params.userId != "admin-panel") {
+            await this.updateUserFavoriteFoods(params);
+        }
         this.socket.handleOrderReceivedCase(response);
         return response;
     }

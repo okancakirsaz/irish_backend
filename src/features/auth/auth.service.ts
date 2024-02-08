@@ -69,7 +69,6 @@ export class AuthService {
       ).data();
       user.fromJson(userData);
       await signOut(FirebaseServices.instance.auth);
-      console.log(user);
       return user;
     } catch (_) {
       return null;

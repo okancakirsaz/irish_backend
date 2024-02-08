@@ -43,7 +43,6 @@ let AuthService = class AuthService {
             const userData = (await firebase_services_1.FirebaseServices.instance.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, firebase_services_1.FirebaseServices.instance.auth.currentUser.uid)).data();
             user.fromJson(userData);
             await (0, auth_1.signOut)(firebase_services_1.FirebaseServices.instance.auth);
-            console.log(user);
             return user;
         }
         catch (_) {
