@@ -9,6 +9,7 @@ class UserDataDto {
         this.gender = json["gender"];
         this.uid = json["uid"];
         this.profileImage = json["profileImage"] ?? null;
+        this.isUserBanned = json['isUserBanned'];
         this.phoneNumber = json["phoneNumber"];
         this.posts = json["posts"];
         this.scores = json["scores"];
@@ -22,6 +23,7 @@ class UserDataDto {
             'token': this.token,
             'gender': this.gender,
             'uid': this.uid,
+            'isUserBanned': this.isUserBanned,
             'profileImage': this.profileImage,
             'phoneNumber': this.phoneNumber,
             'posts': this.posts,

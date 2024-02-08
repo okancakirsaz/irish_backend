@@ -8,6 +8,7 @@ export declare class UserDataDto {
     gender: string;
     uid: string;
     profileImage?: string;
+    isUserBanned: boolean;
     phoneNumber: string;
     posts: Array<PostDto>;
     scores: Array<any>;
