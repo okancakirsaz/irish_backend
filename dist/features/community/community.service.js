@@ -68,6 +68,28 @@ let CommunityService = class CommunityService {
         }
         return userListAsModel;
     }
+    async blockUser(params) {
+        params.isUserBanned = true;
+        await this.deleteUserPostsInCommunity(params.posts);
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.uid, params);
+        return params;
+    }
+    async deleteUserPostsInCommunity(posts) {
+        for (let i = 0; i <= posts.length - 1; i++) {
+            await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.POSTS, posts[i].id);
+        }
+    }
+    async unblockUser(params) {
+        params.isUserBanned = false;
+        await this.addUserPostsToCommunityAfterUnblock(params.posts);
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.uid, params);
+        return params;
+    }
+    async addUserPostsToCommunityAfterUnblock(posts) {
+        for (let i = 0; i <= posts.length - 1; i++) {
+            await this.network.setData(posts[i], firebase_column_enums_1.FirebaseColumns.POSTS, posts[i].id);
+        }
+    }
 };
 exports.CommunityService = CommunityService;
 exports.CommunityService = CommunityService = __decorate([

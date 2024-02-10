@@ -96,6 +96,14 @@ let UserController = class UserController {
             throw Error(error);
         }
     }
+    async checkIsUserBanned(params) {
+        try {
+            return await this.service.checkIsUserBanned(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -162,6 +170,13 @@ __decorate([
     __metadata("design:paramtypes", [post_delete_req_dto_1.PostDeleteReqDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deletePost", null);
+__decorate([
+    (0, common_1.Post)('is-user-banned'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [uid_req_dto_1.UidReqDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "checkIsUserBanned", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])

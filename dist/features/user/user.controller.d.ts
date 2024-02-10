@@ -15,4 +15,5 @@ export declare class UserController {
     deleteProfilePhoto(params: UidReqDto): Promise<import("./dto/boolean_single_response.dto").BooleanSingleResponseDto>;
     deleteAccount(params: UidReqDto): Promise<import("./dto/boolean_single_response.dto").BooleanSingleResponseDto>;
     deletePost(params: PostDeleteReqDto): Promise<import("./dto/boolean_single_response.dto").BooleanSingleResponseDto>;
+    checkIsUserBanned(params: UidReqDto): Promise<import("./dto/boolean_single_response.dto").BooleanSingleResponseDto>;
 }

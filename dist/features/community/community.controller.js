@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const community_service_1 = require("./community.service");
 const post_dto_1 = require("./dto/post.dto");
 const get_more_posts_req_dto_1 = require("./dto/get_more_posts_req.dto");
+const user_data_dto_1 = require("../auth/dto/user_data.dto");
 let CommunityController = class CommunityController {
     constructor(service) {
         this.service = service;
@@ -87,6 +88,22 @@ let CommunityController = class CommunityController {
             throw Error(error);
         }
     }
+    async blockUser(params) {
+        try {
+            return await this.service.blockUser(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async unblockUser(params) {
+        try {
+            return await this.service.unblockUser(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.CommunityController = CommunityController;
 __decorate([
@@ -121,6 +138,20 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CommunityController.prototype, "getUsers", null);
+__decorate([
+    (0, common_1.Post)('block-user'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_data_dto_1.UserDataDto]),
+    __metadata("design:returntype", Promise)
+], CommunityController.prototype, "blockUser", null);
+__decorate([
+    (0, common_1.Post)('unblock-user'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_data_dto_1.UserDataDto]),
+    __metadata("design:returntype", Promise)
+], CommunityController.prototype, "unblockUser", null);
 exports.CommunityController = CommunityController = __decorate([
     (0, common_1.Controller)('community'),
     __metadata("design:paramtypes", [community_service_1.CommunityService])

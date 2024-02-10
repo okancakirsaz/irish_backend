@@ -8,4 +8,8 @@ export declare class CommunityService {
     getCurrentPosts(): Promise<PostDto[]>;
     getMoreCommunityShares(params: GetMorePostDto): Promise<PostDto[]>;
     getAllUsers(): Promise<UserDataDto[]>;
+    blockUser(params: UserDataDto): Promise<UserDataDto>;
+    private deleteUserPostsInCommunity;
+    unblockUser(params: UserDataDto): Promise<UserDataDto>;
+    private addUserPostsToCommunityAfterUnblock;
 }

@@ -83,7 +83,7 @@ let UserService = class UserService {
         try {
             await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.POSTS, params.postId);
             const userData = await this.getUserData(params.token);
-            await this.network.deleteImageFromStorage(params.postId, 'posts');
+            await this.network.deleteImageFromStorage(params.postId, "posts");
             userData.posts.forEach((post) => {
                 if (post.id == params.postId) {
                     const index = userData.posts.indexOf(post);
@@ -129,7 +129,9 @@ let UserService = class UserService {
         return userData;
     }
     async setProfileImageToDb(uid, profileImage) {
-        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, uid, { profileImage: profileImage });
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, uid, {
+            profileImage: profileImage,
+        });
     }
     async deleteUserProfileImageFromStorage(uid) {
         try {
@@ -160,6 +162,20 @@ let UserService = class UserService {
         const userData = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, uid);
         const user = await (0, auth_1.signInWithEmailAndPassword)(this.network.auth, userData.data()["email"], userData.data()["password"]);
         await (0, auth_1.deleteUser)(user.user);
+    }
+    async checkIsUserBanned(params) {
+        const user = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, params.uid)).data();
+        const userAsDto = new user_data_dto_1.UserDataDto().fromJsonWithReturn(user);
+        const response = new boolean_single_response_dto_1.BooleanSingleResponseDto();
+        switch (userAsDto.isUserBanned) {
+            case true:
+                response.isSuccess = false;
+                break;
+            case false:
+                response.isSuccess = true;
+                break;
+        }
+        return response;
     }
 };
 exports.UserService = UserService;

@@ -22,4 +22,5 @@ export declare class UserService {
     private deleteUserPosts;
     private getUserForDelete;
     private deleteUserFromAuthService;
+    checkIsUserBanned(params: UidReqDto): Promise<BooleanSingleResponseDto>;
 }

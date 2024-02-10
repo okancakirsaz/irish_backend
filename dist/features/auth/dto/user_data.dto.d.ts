@@ -15,5 +15,6 @@ export declare class UserDataDto {
     favoriteFoods: Array<FavoriteFoodDto>;
     isAnonym: boolean;
     fromJson(json: any): void;
+    fromJsonWithReturn(json: any): UserDataDto;
     toJson(): Record<string, any>;
 }

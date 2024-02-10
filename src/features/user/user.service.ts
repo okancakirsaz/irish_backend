@@ -108,26 +108,31 @@ export class UserService {
     }
   }
 
-  async deletePost(params:PostDeleteReqDto):Promise<BooleanSingleResponseDto>{
-    let response:BooleanSingleResponseDto = new BooleanSingleResponseDto();
+  async deletePost(
+    params: PostDeleteReqDto
+  ): Promise<BooleanSingleResponseDto> {
+    let response: BooleanSingleResponseDto = new BooleanSingleResponseDto();
     try {
-        await this.network.deleteDoc(FirebaseColumns.POSTS,params.postId);
-        const userData:UserDataDto = await this.getUserData(params.token);
-        await this.network.deleteImageFromStorage(params.postId,'posts');
-        userData.posts.forEach((post)=>{
-            if(post.id==params.postId){
-                const index:number = userData.posts.indexOf(post);
-                userData.posts.splice(index,1);
-            }
-        });
-        await this.network.updateDocument(FirebaseColumns.USERS,userData.uid,userData.toJson());
-        response.isSuccess=true;
+      await this.network.deleteDoc(FirebaseColumns.POSTS, params.postId);
+      const userData: UserDataDto = await this.getUserData(params.token);
+      await this.network.deleteImageFromStorage(params.postId, "posts");
+      userData.posts.forEach((post) => {
+        if (post.id == params.postId) {
+          const index: number = userData.posts.indexOf(post);
+          userData.posts.splice(index, 1);
+        }
+      });
+      await this.network.updateDocument(
+        FirebaseColumns.USERS,
+        userData.uid,
+        userData.toJson()
+      );
+      response.isSuccess = true;
     } catch (error) {
-        console.log(error);
-        response.isSuccess=false;
-    }
-    finally{
-        return response;
+      console.log(error);
+      response.isSuccess = false;
+    } finally {
+      return response;
     }
   }
 
@@ -160,12 +165,18 @@ export class UserService {
     userData.name = params.name;
     userData.email = params.email;
     userData.phoneNumber = params.phoneNumber;
-    await this.network.updateDocument(FirebaseColumns.USERS,userData.uid,userData.toJson());
+    await this.network.updateDocument(
+      FirebaseColumns.USERS,
+      userData.uid,
+      userData.toJson()
+    );
     return userData;
   }
 
   private async setProfileImageToDb(uid: string, profileImage?: string) {
-    await this.network.updateDocument(FirebaseColumns.USERS,uid,{ profileImage: profileImage });
+    await this.network.updateDocument(FirebaseColumns.USERS, uid, {
+      profileImage: profileImage,
+    });
   }
 
   private async deleteUserProfileImageFromStorage(uid: string) {
@@ -199,7 +210,6 @@ export class UserService {
     return userAsDto;
   }
 
-
   //Deactivated. Bug here
   private async deleteUserFromAuthService(uid: string) {
     const userData = await this.network.getDoc(FirebaseColumns.USERS, uid);
@@ -209,5 +219,25 @@ export class UserService {
       userData.data()["password"]
     );
     await deleteUser(user.user);
+  }
+
+  async checkIsUserBanned(
+    params: UidReqDto
+  ): Promise<BooleanSingleResponseDto> {
+    const user = (
+      await this.network.getDoc(FirebaseColumns.USERS, params.uid)
+    ).data();
+    const userAsDto: UserDataDto = new UserDataDto().fromJsonWithReturn(user);
+    const response: BooleanSingleResponseDto = new BooleanSingleResponseDto();
+    switch (userAsDto.isUserBanned) {
+      case true:
+        response.isSuccess = false;
+        break;
+
+      case false:
+        response.isSuccess = true;
+        break;
+    }
+    return response;
   }
 }

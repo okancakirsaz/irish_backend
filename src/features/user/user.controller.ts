@@ -87,4 +87,13 @@ export class UserController {
       throw Error(error);
     }
   }
+
+  @Post('is-user-banned')
+  async checkIsUserBanned(@Body() params:UidReqDto){
+    try {
+      return await this.service.checkIsUserBanned(params);
+    } catch (error) {
+      throw Error(error);
+    }
+  }
 }

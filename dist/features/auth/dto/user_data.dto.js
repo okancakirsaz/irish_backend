@@ -16,6 +16,22 @@ class UserDataDto {
         this.favoriteFoods = json["favoriteFoods"];
         this.isAnonym = json['isAnonym'];
     }
+    fromJsonWithReturn(json) {
+        const element = new UserDataDto();
+        element.name = json["name"];
+        element.email = json["email"];
+        element.token = json["token"];
+        element.gender = json["gender"];
+        element.uid = json["uid"];
+        element.profileImage = json["profileImage"] ?? null;
+        element.isUserBanned = json['isUserBanned'];
+        element.phoneNumber = json["phoneNumber"];
+        element.posts = json["posts"];
+        element.scores = json["scores"];
+        element.favoriteFoods = json["favoriteFoods"];
+        element.isAnonym = json['isAnonym'];
+        return element;
+    }
     toJson() {
         return {
             'name': this.name,

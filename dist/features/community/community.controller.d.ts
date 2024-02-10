@@ -17,4 +17,6 @@ export declare class CommunityController {
         profileImage: string;
     }[]>;
     getUsers(): Promise<UserDataDto[]>;
+    blockUser(params: UserDataDto): Promise<UserDataDto>;
+    unblockUser(params: UserDataDto): Promise<UserDataDto>;
 }

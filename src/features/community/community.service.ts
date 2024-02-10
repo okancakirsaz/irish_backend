@@ -5,6 +5,7 @@ import { FirebaseColumns } from "src/core/enums/firebase_column_enums";
 import { collection, doc, getDocs, limit, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
+import { LiteUserDto } from "./dto/lite_user.dto";
 
 @Injectable()
 export class CommunityService {
@@ -75,5 +76,31 @@ export class CommunityService {
    userListAsModel.push(dataAsModel);
    }
    return userListAsModel; 
+  }
+
+  async blockUser(params:UserDataDto):Promise<UserDataDto>{
+    params.isUserBanned=true;
+    await this.deleteUserPostsInCommunity(params.posts);
+    await this.network.updateDocument(FirebaseColumns.USERS,params.uid,params);
+    return params;
+  }
+
+  private async deleteUserPostsInCommunity(posts:PostDto[]){
+    for(let i = 0; i<=posts.length-1;i++){
+      await this.network.deleteDoc(FirebaseColumns.POSTS,posts[i].id);
+    }
+  }
+
+  async unblockUser(params:UserDataDto):Promise<UserDataDto>{
+    params.isUserBanned=false;
+    await this.addUserPostsToCommunityAfterUnblock(params.posts);
+    await this.network.updateDocument(FirebaseColumns.USERS,params.uid,params);
+    return params;
+  }
+
+  private async addUserPostsToCommunityAfterUnblock(posts:PostDto[]){
+    for(let i = 0; i<=posts.length-1;i++){
+      await this.network.setData(posts[i],FirebaseColumns.POSTS,posts[i].id);
+    }
   }
 }
