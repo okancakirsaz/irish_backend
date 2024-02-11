@@ -9,5 +9,6 @@ var FirebaseColumns;
     FirebaseColumns["EVENTS"] = "EVENTS";
     FirebaseColumns["SYSTEM_LOGS"] = "SYSTEM_LOGS";
     FirebaseColumns["ORDERS"] = "ORDERS";
+    FirebaseColumns["ERRORS"] = "ERROR_LOGS";
 })(FirebaseColumns || (exports.FirebaseColumns = FirebaseColumns = {}));
 //# sourceMappingURL=firebase_column_enums.js.map

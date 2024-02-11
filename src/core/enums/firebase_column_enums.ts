@@ -4,5 +4,6 @@ export enum FirebaseColumns{
     MENU="MENU",
     EVENTS="EVENTS",
     SYSTEM_LOGS="SYSTEM_LOGS",
-    ORDERS="ORDERS"
+    ORDERS="ORDERS",
+    ERRORS="ERROR_LOGS"
 }

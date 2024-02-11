@@ -3,10 +3,8 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   query,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { UserDataDto } from "src/features/auth/dto/user_data.dto";
@@ -22,7 +20,6 @@ import {
   UserCredential,
   deleteUser,
   signInWithEmailAndPassword,
-  signInWithPhoneNumber,
 } from "@firebase/auth";
 import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
 
