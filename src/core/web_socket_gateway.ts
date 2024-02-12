@@ -1,5 +1,6 @@
 import { MessageBody,SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from 'socket.io';
+import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { CurrentlyInIrishDto } from "src/features/community/dto/currently_in_irish.dto";
 import { OrderResponseDto } from "src/features/order/dto/order_response.dto";
 
@@ -23,5 +24,11 @@ handleNewCustomer(@MessageBody() body:CurrentlyInIrishDto){
 @SubscribeMessage("delete_customer")
 handleDeleteCustomer(@MessageBody() body:CurrentlyInIrishDto){
     this.server.emit("delete_customer",body);
+}
+
+@SubscribeMessage("user_banned")
+handleBannedUser(@MessageBody() body:string){
+    //body = user id
+    this.server.emit("user_banned",body);
 }
 }

@@ -6,4 +6,5 @@ export declare class SocketGateway {
     handleOrderReceivedCase(body: OrderResponseDto): void;
     handleNewCustomer(body: CurrentlyInIrishDto): void;
     handleDeleteCustomer(body: CurrentlyInIrishDto): void;
+    handleBannedUser(body: string): void;
 }

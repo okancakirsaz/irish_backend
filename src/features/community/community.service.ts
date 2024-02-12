@@ -7,9 +7,13 @@ import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 import { LiteUserDto } from "./dto/lite_user.dto";
 import { CurrentlyInIrishDto } from "./dto/currently_in_irish.dto";
+import { SocketGateway } from "src/core/web_socket_gateway";
 
 @Injectable()
 export class CommunityService {
+  constructor(private readonly socket:SocketGateway) {
+    
+  }
 
   private network:FirebaseServices = FirebaseServices.instance;
 
@@ -81,6 +85,7 @@ export class CommunityService {
 
   async blockUser(params:UserDataDto):Promise<UserDataDto>{
     params.isUserBanned=true;
+    this.socket.handleBannedUser(params.uid);
     await this.deleteUserPostsInCommunity(params.posts);
     await this.network.updateDocument(FirebaseColumns.USERS,params.uid,params);
     return params;

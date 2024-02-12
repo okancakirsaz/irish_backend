@@ -30,6 +30,9 @@ let SocketGateway = class SocketGateway {
     handleDeleteCustomer(body) {
         this.server.emit("delete_customer", body);
     }
+    handleBannedUser(body) {
+        this.server.emit("user_banned", body);
+    }
 };
 exports.SocketGateway = SocketGateway;
 __decorate([
@@ -57,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [currently_in_irish_dto_1.CurrentlyInIrishDto]),
     __metadata("design:returntype", void 0)
 ], SocketGateway.prototype, "handleDeleteCustomer", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("user_banned"),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], SocketGateway.prototype, "handleBannedUser", null);
 exports.SocketGateway = SocketGateway = __decorate([
     (0, websockets_1.WebSocketGateway)()
 ], SocketGateway);

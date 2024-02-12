@@ -10,12 +10,13 @@ exports.CommunityModule = void 0;
 const common_1 = require("@nestjs/common");
 const community_service_1 = require("./community.service");
 const community_controller_1 = require("./community.controller");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let CommunityModule = class CommunityModule {
 };
 exports.CommunityModule = CommunityModule;
 exports.CommunityModule = CommunityModule = __decorate([
     (0, common_1.Module)({
-        providers: [community_service_1.CommunityService],
+        providers: [community_service_1.CommunityService, web_socket_gateway_1.SocketGateway],
         controllers: [community_controller_1.CommunityController]
     })
 ], CommunityModule);

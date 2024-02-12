@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunityService = void 0;
 const common_1 = require("@nestjs/common");
@@ -14,8 +17,10 @@ const firebase_column_enums_1 = require("../../core/enums/firebase_column_enums"
 const firestore_1 = require("firebase/firestore");
 const user_data_dto_1 = require("../auth/dto/user_data.dto");
 const currently_in_irish_dto_1 = require("./dto/currently_in_irish.dto");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let CommunityService = class CommunityService {
-    constructor() {
+    constructor(socket) {
+        this.socket = socket;
         this.network = firebase_services_1.FirebaseServices.instance;
     }
     async sharePost(params) {
@@ -71,6 +76,7 @@ let CommunityService = class CommunityService {
     }
     async blockUser(params) {
         params.isUserBanned = true;
+        this.socket.handleBannedUser(params.uid);
         await this.deleteUserPostsInCommunity(params.posts);
         await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.uid, params);
         return params;
@@ -102,6 +108,7 @@ let CommunityService = class CommunityService {
 };
 exports.CommunityService = CommunityService;
 exports.CommunityService = CommunityService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [web_socket_gateway_1.SocketGateway])
 ], CommunityService);
 //# sourceMappingURL=community.service.js.map
