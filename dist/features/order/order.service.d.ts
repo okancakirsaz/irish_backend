@@ -21,4 +21,5 @@ export declare class OrderService {
     getOrders(): Promise<any[]>;
     deleteOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
     submitOrder(params: OrderResponseDto): Promise<OrderResponseDto>;
+    private updateActiveCustomersList;
 }

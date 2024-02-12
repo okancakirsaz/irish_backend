@@ -8,14 +8,7 @@ export declare class CommunityController {
     sharePost(params: PostDto): Promise<PostDto>;
     getCommunityShares(): Promise<PostDto[]>;
     getMoreCommunityShares(params: GetMorePostDto): Promise<PostDto[]>;
-    getCustomers(): Promise<{
-        name: string;
-        gender: string;
-        index: number;
-        isAnonym: boolean;
-        token: string;
-        profileImage: string;
-    }[]>;
+    getCustomers(): Promise<import("./dto/currently_in_irish.dto").CurrentlyInIrishDto[]>;
     getUsers(): Promise<UserDataDto[]>;
     blockUser(params: UserDataDto): Promise<UserDataDto>;
     unblockUser(params: UserDataDto): Promise<UserDataDto>;

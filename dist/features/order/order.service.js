@@ -20,6 +20,7 @@ const user_data_dto_1 = require("../auth/dto/user_data.dto");
 const menu_item_dto_1 = require("../menu/dto/menu_item.dto");
 const favorite_food_dto_1 = require("../user/dto/favorite_food.dto");
 const web_socket_gateway_1 = require("../../core/web_socket_gateway");
+const currently_in_irish_dto_1 = require("../community/dto/currently_in_irish.dto");
 let OrderService = class OrderService {
     constructor(socket) {
         this.socket = socket;
@@ -65,6 +66,7 @@ let OrderService = class OrderService {
         await this.network.setData(response.toJson(), firebase_column_enums_1.FirebaseColumns.ORDERS, `${response.orderId}`);
         if (params.userId != "admin-panel") {
             await this.updateUserFavoriteFoods(params);
+            await this.updateActiveCustomersList(params.userId);
         }
         this.socket.handleOrderReceivedCase(response);
         return response;
@@ -138,6 +140,19 @@ let OrderService = class OrderService {
         params.isOrderReady = true;
         await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.ORDERS, `${params.orderId}`);
         return params;
+    }
+    async updateActiveCustomersList(userId) {
+        const user = await this.getUser(userId);
+        const userToCustomer = new currently_in_irish_dto_1.CurrentlyInIrishDto();
+        userToCustomer.name = user.name;
+        userToCustomer.gender = user.gender;
+        userToCustomer.isAnonym = user.isAnonym;
+        userToCustomer.token = user.token;
+        userToCustomer.uid = user.uid;
+        userToCustomer.timestamp = new Date().toISOString();
+        userToCustomer.profileImage = user.profileImage;
+        this.socket.handleNewCustomer(userToCustomer);
+        await this.network.setData(userToCustomer.toJson(), firebase_column_enums_1.FirebaseColumns.CUSTOMERS, userToCustomer.uid);
     }
 };
 exports.OrderService = OrderService;

@@ -7,6 +7,7 @@ var FirebaseColumns;
     FirebaseColumns["POSTS"] = "POSTS";
     FirebaseColumns["MENU"] = "MENU";
     FirebaseColumns["EVENTS"] = "EVENTS";
+    FirebaseColumns["CUSTOMERS"] = "CUSTOMERS";
     FirebaseColumns["SYSTEM_LOGS"] = "SYSTEM_LOGS";
     FirebaseColumns["ORDERS"] = "ORDERS";
     FirebaseColumns["ERRORS"] = "ERROR_LOGS";

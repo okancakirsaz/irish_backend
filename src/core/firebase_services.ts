@@ -1,6 +1,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "@firebase/auth";
-import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc, updateDoc, Firestore } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
 
 
@@ -21,7 +21,7 @@ export class FirebaseServices {
   };
   private app: FirebaseApp = initializeApp(this.firebaseConfig);
   auth = getAuth(this.app);
-  firestore = getFirestore(this.app);
+  firestore:Firestore = getFirestore(this.app);
   storage = getStorage(this.app);
 
   async setData(data, colName: string, docName: string) {
@@ -101,4 +101,6 @@ export class FirebaseServices {
       );
      await deleteObject(storageRef);
   }
+
+
 }

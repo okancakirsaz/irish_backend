@@ -6,6 +6,7 @@ import { collection, doc, getDocs, limit, orderBy, query, updateDoc, where } fro
 import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 import { LiteUserDto } from "./dto/lite_user.dto";
+import { CurrentlyInIrishDto } from "./dto/currently_in_irish.dto";
 
 @Injectable()
 export class CommunityService {
@@ -102,5 +103,14 @@ export class CommunityService {
     for(let i = 0; i<=posts.length-1;i++){
       await this.network.setData(posts[i],FirebaseColumns.POSTS,posts[i].id);
     }
+  }
+
+  async getCustomerList():Promise<CurrentlyInIrishDto[]>{
+    const response:CurrentlyInIrishDto[] =[];
+    const customers = await this.network.getDocs(FirebaseColumns.CUSTOMERS);
+    for(const index in customers){
+      response.push(new CurrentlyInIrishDto().fromJsonWithReturn(customers[index]));
+    }
+    return response;
   }
 }

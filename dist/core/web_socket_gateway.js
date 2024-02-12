@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SocketGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
+const currently_in_irish_dto_1 = require("../features/community/dto/currently_in_irish.dto");
 const order_response_dto_1 = require("../features/order/dto/order_response.dto");
 let SocketGateway = class SocketGateway {
     constructor() {
@@ -22,6 +23,12 @@ let SocketGateway = class SocketGateway {
     }
     handleOrderReceivedCase(body) {
         this.server.emit("new_order", body);
+    }
+    handleNewCustomer(body) {
+        this.server.emit("new_customer", body);
+    }
+    handleDeleteCustomer(body) {
+        this.server.emit("delete_customer", body);
     }
 };
 exports.SocketGateway = SocketGateway;
@@ -36,6 +43,20 @@ __decorate([
     __metadata("design:paramtypes", [order_response_dto_1.OrderResponseDto]),
     __metadata("design:returntype", void 0)
 ], SocketGateway.prototype, "handleOrderReceivedCase", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("new_customer"),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [currently_in_irish_dto_1.CurrentlyInIrishDto]),
+    __metadata("design:returntype", void 0)
+], SocketGateway.prototype, "handleNewCustomer", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("delete_customer"),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [currently_in_irish_dto_1.CurrentlyInIrishDto]),
+    __metadata("design:returntype", void 0)
+], SocketGateway.prototype, "handleDeleteCustomer", null);
 exports.SocketGateway = SocketGateway = __decorate([
     (0, websockets_1.WebSocketGateway)()
 ], SocketGateway);

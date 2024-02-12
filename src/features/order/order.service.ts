@@ -11,6 +11,8 @@ import { UserDataDto } from "../auth/dto/user_data.dto";
 import { MenuItemDto } from "../menu/dto/menu_item.dto";
 import { FavoriteFoodDto } from "../user/dto/favorite_food.dto";
 import { SocketGateway } from "src/core/web_socket_gateway";
+import { CurrentlyInIrishDto } from "../community/dto/currently_in_irish.dto";
+import { Cron, CronExpression } from "@nestjs/schedule";
 
 @Injectable()
 export class OrderService {
@@ -70,6 +72,7 @@ export class OrderService {
     );
     if(params.userId!="admin-panel"){
       await this.updateUserFavoriteFoods(params);
+      await this.updateActiveCustomersList(params.userId);
     }
     this.socket.handleOrderReceivedCase(response);
     return response;
@@ -170,4 +173,21 @@ export class OrderService {
     await this.network.setData(params,FirebaseColumns.ORDERS,`${params.orderId}`);
     return params;
   }
+
+  private async updateActiveCustomersList(userId:string){
+    const user: UserDataDto = await this.getUser(userId);
+    const userToCustomer:CurrentlyInIrishDto= new CurrentlyInIrishDto();
+    userToCustomer.name=user.name;
+    userToCustomer.gender=user.gender;
+    userToCustomer.isAnonym=user.isAnonym;
+    userToCustomer.token=user.token;
+    userToCustomer.uid = user.uid;
+    userToCustomer.timestamp = new Date().toISOString()
+    userToCustomer.profileImage=user.profileImage;
+    this.socket.handleNewCustomer(userToCustomer);
+    await this.network.setData(userToCustomer.toJson(),FirebaseColumns.CUSTOMERS,userToCustomer.uid);
+  }
+
+
+
 }

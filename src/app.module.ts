@@ -6,11 +6,14 @@ import { UserModule } from './features/user/user.module';
 import { GamesModule } from './features/games/games.module';
 import { OrderModule } from './features/order/order.module';
 import { SocketGateway } from './core/web_socket_gateway';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CronjobManager } from './core/managers/cronjobs/cronjob_manager';
+import { CronjobManagerModule } from './core/managers/cronjobs/cronjob_manager.module';
 
 
 @Module({
   imports: [
-    AuthModule,CommunityModule,MenuModule,UserModule,GamesModule,OrderModule],
+    AuthModule,CommunityModule,MenuModule,UserModule,GamesModule,OrderModule,ScheduleModule.forRoot(),CronjobManagerModule],
   providers:[SocketGateway],
   controllers: [],
 })

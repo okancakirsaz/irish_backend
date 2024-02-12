@@ -13,6 +13,7 @@ const firebase_services_1 = require("../../core/firebase_services");
 const firebase_column_enums_1 = require("../../core/enums/firebase_column_enums");
 const firestore_1 = require("firebase/firestore");
 const user_data_dto_1 = require("../auth/dto/user_data.dto");
+const currently_in_irish_dto_1 = require("./dto/currently_in_irish.dto");
 let CommunityService = class CommunityService {
     constructor() {
         this.network = firebase_services_1.FirebaseServices.instance;
@@ -89,6 +90,14 @@ let CommunityService = class CommunityService {
         for (let i = 0; i <= posts.length - 1; i++) {
             await this.network.setData(posts[i], firebase_column_enums_1.FirebaseColumns.POSTS, posts[i].id);
         }
+    }
+    async getCustomerList() {
+        const response = [];
+        const customers = await this.network.getDocs(firebase_column_enums_1.FirebaseColumns.CUSTOMERS);
+        for (const index in customers) {
+            response.push(new currently_in_irish_dto_1.CurrentlyInIrishDto().fromJsonWithReturn(customers[index]));
+        }
+        return response;
     }
 };
 exports.CommunityService = CommunityService;

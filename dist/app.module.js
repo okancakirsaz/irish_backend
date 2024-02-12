@@ -15,13 +15,15 @@ const user_module_1 = require("./features/user/user.module");
 const games_module_1 = require("./features/games/games.module");
 const order_module_1 = require("./features/order/order.module");
 const web_socket_gateway_1 = require("./core/web_socket_gateway");
+const schedule_1 = require("@nestjs/schedule");
+const cronjob_manager_module_1 = require("./core/managers/cronjobs/cronjob_manager.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule, order_module_1.OrderModule
+            auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule, order_module_1.OrderModule, schedule_1.ScheduleModule.forRoot(), cronjob_manager_module_1.CronjobManagerModule
         ],
         providers: [web_socket_gateway_1.SocketGateway],
         controllers: [],
