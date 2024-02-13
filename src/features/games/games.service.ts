@@ -16,4 +16,22 @@ export class GamesService{
      });
      return responseAsList;
     }
+
+    async createEvent(params:EventDto):Promise<EventDto>{
+        try {
+            await this.network.setData(params,FirebaseColumns.EVENTS,params.eventId);
+            return params;
+        } catch (error) {
+            throw Error(error);
+        }
+    }
+
+    async deleteEvent(params:EventDto):Promise<EventDto>{
+        try {
+            await this.network.deleteDoc(FirebaseColumns.EVENTS,params.eventId);
+            return params;
+        } catch (error) {
+            throw Error(error);
+        }
+    }
 }

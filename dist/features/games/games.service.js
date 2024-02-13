@@ -25,6 +25,24 @@ let GamesService = class GamesService {
         });
         return responseAsList;
     }
+    async createEvent(params) {
+        try {
+            await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.EVENTS, params.eventId);
+            return params;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async deleteEvent(params) {
+        try {
+            await this.network.deleteDoc(firebase_column_enums_1.FirebaseColumns.EVENTS, params.eventId);
+            return params;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.GamesService = GamesService;
 exports.GamesService = GamesService = __decorate([

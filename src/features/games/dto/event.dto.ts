@@ -2,7 +2,7 @@ export class EventDto{
     eventId:string
     eventName:string
     eventTime:string
-    gameType:string
+    gameType?:string
     isPysicalEvent:boolean
 
     fromJson(json){

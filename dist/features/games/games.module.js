@@ -9,14 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GamesModule = void 0;
 const common_1 = require("@nestjs/common");
 const games_service_1 = require("./games.service");
-const games_controllr_1 = require("./games.controllr");
+const games_controller_1 = require("./games.controller");
 let GamesModule = class GamesModule {
 };
 exports.GamesModule = GamesModule;
 exports.GamesModule = GamesModule = __decorate([
     (0, common_1.Module)({
         providers: [games_service_1.GamesService],
-        controllers: [games_controllr_1.GamesController]
+        controllers: [games_controller_1.GamesController]
     })
 ], GamesModule);
 //# sourceMappingURL=games.module.js.map
