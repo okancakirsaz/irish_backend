@@ -112,22 +112,46 @@ export class OrderService {
     const user: UserDataDto = await this.getUser(params.userId);
     const foodList: any[] = [];
     for (let i = 0; i <= params.orderList.length - 1; i++) {
-      const favoriteFoodData: FavoriteFoodDto = new FavoriteFoodDto();
-      const menuItem: MenuItemDto = await this.getMenuItem(
-        params.orderList[i]["name"]
-      );
-      (favoriteFoodData.photo = menuItem.image),
-        (favoriteFoodData.count = this.getFavoriteFoodCount(
-          menuItem.name,
-          user
-        ));
-      favoriteFoodData.foodName = menuItem.name;
+      const favoriteFoodData:FavoriteFoodDto = await this.fetchNewFavFoodObject(params.orderList[i]["name"],user);
+
       foodList.push(favoriteFoodData.toJson());
     }
+
     await this.network.updateDocument(FirebaseColumns.USERS, params.userId, {
-      favoriteFoods: foodList,
+      favoriteFoods: this.mergeFavoriteFoods(user.favoriteFoods,foodList),
     });
   }
+
+  private async fetchNewFavFoodObject(orderName:string,user:UserDataDto):Promise<FavoriteFoodDto>{
+
+    const favoriteFoodData: FavoriteFoodDto = new FavoriteFoodDto();
+    const menuItem: MenuItemDto = await this.getMenuItem(
+      orderName
+    );
+    (favoriteFoodData.photo = menuItem.image),
+      (favoriteFoodData.count = this.getFavoriteFoodCount(
+        menuItem.name,
+        user
+      ));
+    favoriteFoodData.foodName = menuItem.name;
+    return favoriteFoodData;
+  }
+
+  private mergeFavoriteFoods(userFavoriteFoods: any[], foodList: any[]): any[] {
+    const mergedList: any[] = [];
+
+    userFavoriteFoods.forEach((favoriteFood: any) => {
+        if (!foodList.some(food => food.foodName === favoriteFood.foodName)) {
+            mergedList.push(favoriteFood);
+        }
+    });
+
+    mergedList.push(...foodList);
+
+    return mergedList;
+
+  }
+
 
   private async getUser(userId: string): Promise<UserDataDto> {
     const userData = (

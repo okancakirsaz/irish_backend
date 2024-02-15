@@ -97,16 +97,30 @@ let OrderService = class OrderService {
         const user = await this.getUser(params.userId);
         const foodList = [];
         for (let i = 0; i <= params.orderList.length - 1; i++) {
-            const favoriteFoodData = new favorite_food_dto_1.FavoriteFoodDto();
-            const menuItem = await this.getMenuItem(params.orderList[i]["name"]);
-            (favoriteFoodData.photo = menuItem.image),
-                (favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user));
-            favoriteFoodData.foodName = menuItem.name;
+            const favoriteFoodData = await this.fetchNewFavFoodObject(params.orderList[i]["name"], user);
             foodList.push(favoriteFoodData.toJson());
         }
         await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.userId, {
-            favoriteFoods: foodList,
+            favoriteFoods: this.mergeFavoriteFoods(user.favoriteFoods, foodList),
         });
+    }
+    async fetchNewFavFoodObject(orderName, user) {
+        const favoriteFoodData = new favorite_food_dto_1.FavoriteFoodDto();
+        const menuItem = await this.getMenuItem(orderName);
+        (favoriteFoodData.photo = menuItem.image),
+            (favoriteFoodData.count = this.getFavoriteFoodCount(menuItem.name, user));
+        favoriteFoodData.foodName = menuItem.name;
+        return favoriteFoodData;
+    }
+    mergeFavoriteFoods(userFavoriteFoods, foodList) {
+        const mergedList = [];
+        userFavoriteFoods.forEach((favoriteFood) => {
+            if (!foodList.some(food => food.foodName === favoriteFood.foodName)) {
+                mergedList.push(favoriteFood);
+            }
+        });
+        mergedList.push(...foodList);
+        return mergedList;
     }
     async getUser(userId) {
         const userData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, userId)).data();

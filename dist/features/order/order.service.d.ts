@@ -15,6 +15,8 @@ export declare class OrderService {
     createOrder(params: OrderRequestDto): Promise<OrderResponseDto>;
     private createOrderNumber;
     private updateUserFavoriteFoods;
+    private fetchNewFavFoodObject;
+    private mergeFavoriteFoods;
     private getUser;
     private getMenuItem;
     private getFavoriteFoodCount;
