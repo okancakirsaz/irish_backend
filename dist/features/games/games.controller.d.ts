@@ -6,4 +6,5 @@ export declare class GamesController {
     getEvents(): Promise<EventDto[]>;
     createEvent(params: EventDto): Promise<EventDto>;
     deleteEvent(params: EventDto): Promise<EventDto>;
+    startEvent(params: EventDto): Promise<EventDto>;
 }

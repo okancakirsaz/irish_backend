@@ -33,6 +33,9 @@ let SocketGateway = class SocketGateway {
     handleBannedUser(body) {
         this.server.emit("user_banned", body);
     }
+    handleEventStarted(body) {
+        this.server.emit("event_started", body);
+    }
 };
 exports.SocketGateway = SocketGateway;
 __decorate([
@@ -67,6 +70,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SocketGateway.prototype, "handleBannedUser", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("event_started"),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], SocketGateway.prototype, "handleEventStarted", null);
 exports.SocketGateway = SocketGateway = __decorate([
     (0, websockets_1.WebSocketGateway)()
 ], SocketGateway);

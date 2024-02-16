@@ -3,6 +3,9 @@ export declare class EventDto {
     eventName: string;
     eventTime: string;
     gameType?: string;
+    award?: string;
+    winner?: string;
+    isStarted: boolean;
     isPysicalEvent: boolean;
     fromJson(json: any): void;
 }

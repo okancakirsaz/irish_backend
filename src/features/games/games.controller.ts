@@ -32,5 +32,14 @@ export class GamesController {
         throw Error(error);
     }
   }
+
+  @Post('start-event')
+  async startEvent(@Body() params:EventDto){
+    try {
+      return await this.service.startEvent(params);   
+     } catch (error) {
+         throw Error(error);
+     }
+  }
 }
  

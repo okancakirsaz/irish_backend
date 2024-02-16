@@ -44,6 +44,14 @@ let GamesController = class GamesController {
             throw Error(error);
         }
     }
+    async startEvent(params) {
+        try {
+            return await this.service.startEvent(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.GamesController = GamesController;
 __decorate([
@@ -66,6 +74,13 @@ __decorate([
     __metadata("design:paramtypes", [event_dto_1.EventDto]),
     __metadata("design:returntype", Promise)
 ], GamesController.prototype, "deleteEvent", null);
+__decorate([
+    (0, common_1.Post)('start-event'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [event_dto_1.EventDto]),
+    __metadata("design:returntype", Promise)
+], GamesController.prototype, "startEvent", null);
 exports.GamesController = GamesController = __decorate([
     (0, common_1.Controller)("games"),
     __metadata("design:paramtypes", [games_service_1.GamesService])

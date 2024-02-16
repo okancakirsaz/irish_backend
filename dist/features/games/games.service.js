@@ -5,14 +5,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GamesService = void 0;
 const common_1 = require("@nestjs/common");
 const event_dto_1 = require("./dto/event.dto");
 const firebase_services_1 = require("../../core/firebase_services");
 const firebase_column_enums_1 = require("../../core/enums/firebase_column_enums");
+const web_socket_gateway_1 = require("../../core/web_socket_gateway");
 let GamesService = class GamesService {
-    constructor() {
+    constructor(socket) {
+        this.socket = socket;
         this.network = firebase_services_1.FirebaseServices.instance;
     }
     async getActiveEvents() {
@@ -43,9 +48,21 @@ let GamesService = class GamesService {
             throw Error(error);
         }
     }
+    async startEvent(params) {
+        try {
+            params.isStarted = true;
+            await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.EVENTS, params.eventId, params);
+            this.socket.handleEventStarted(`Etknlik başladı: ${params.eventName}`);
+            return params;
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.GamesService = GamesService;
 exports.GamesService = GamesService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [web_socket_gateway_1.SocketGateway])
 ], GamesService);
 //# sourceMappingURL=games.service.js.map

@@ -31,4 +31,9 @@ handleBannedUser(@MessageBody() body:string){
     //body = user id
     this.server.emit("user_banned",body);
 }
+
+@SubscribeMessage("event_started")
+handleEventStarted(@MessageBody() body:string){
+    this.server.emit("event_started",body);
+}
 }
