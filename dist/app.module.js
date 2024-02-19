@@ -17,6 +17,7 @@ const order_module_1 = require("./features/order/order.module");
 const web_socket_gateway_1 = require("./core/web_socket_gateway");
 const schedule_1 = require("@nestjs/schedule");
 const cronjob_manager_module_1 = require("./core/managers/cronjobs/cronjob_manager.module");
+const games_gateway_1 = require("./features/games/games_gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,7 +26,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             auth_module_1.AuthModule, community_module_1.CommunityModule, menu_module_1.MenuModule, user_module_1.UserModule, games_module_1.GamesModule, order_module_1.OrderModule, schedule_1.ScheduleModule.forRoot(), cronjob_manager_module_1.CronjobManagerModule
         ],
-        providers: [web_socket_gateway_1.SocketGateway],
+        providers: [web_socket_gateway_1.SocketGateway, games_gateway_1.GamesGateway],
         controllers: [],
     })
 ], AppModule);
