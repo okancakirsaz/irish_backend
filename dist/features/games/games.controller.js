@@ -54,9 +54,25 @@ let GamesController = class GamesController {
             throw Error(error);
         }
     }
-    async setGameRoom(params) {
+    async createGameRoom(params) {
         try {
-            return await this.service.setGameRoom(params);
+            return await this.service.createGameRoom(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async setGameRoomChallenged(params) {
+        try {
+            return await this.service.setGameRoom(params, false);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async setGameRoomChallenger(params) {
+        try {
+            return await this.service.setGameRoom(params, true);
         }
         catch (error) {
             throw Error(error);
@@ -100,12 +116,26 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GamesController.prototype, "startEvent", null);
 __decorate([
-    (0, common_1.Post)('set-game-room'),
+    (0, common_1.Post)('create-game-room'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [game_room_dto_1.GameRoomDto]),
     __metadata("design:returntype", Promise)
-], GamesController.prototype, "setGameRoom", null);
+], GamesController.prototype, "createGameRoom", null);
+__decorate([
+    (0, common_1.Post)('set-game-room-challenged'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [game_room_dto_1.GameRoomDto]),
+    __metadata("design:returntype", Promise)
+], GamesController.prototype, "setGameRoomChallenged", null);
+__decorate([
+    (0, common_1.Post)('set-game-room-challenger'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [game_room_dto_1.GameRoomDto]),
+    __metadata("design:returntype", Promise)
+], GamesController.prototype, "setGameRoomChallenger", null);
 __decorate([
     (0, common_1.Post)('get-game-room'),
     __param(0, (0, common_1.Body)()),

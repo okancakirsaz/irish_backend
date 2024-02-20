@@ -9,6 +9,8 @@ export declare class GamesController {
     createEvent(params: EventDto): Promise<EventDto>;
     deleteEvent(params: EventDto): Promise<EventDto>;
     startEvent(params: EventDto): Promise<EventDto>;
-    setGameRoom(params: GameRoomDto): Promise<GameRoomDto>;
+    createGameRoom(params: GameRoomDto): Promise<GameRoomDto>;
+    setGameRoomChallenged(params: GameRoomDto): Promise<GameRoomDto>;
+    setGameRoomChallenger(params: GameRoomDto): Promise<GameRoomDto>;
     getGameRoom(params: DuelInviteDto): Promise<GameRoomDto>;
 }

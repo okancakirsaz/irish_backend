@@ -60,43 +60,34 @@ export class GamesService {
     }
   }
 
-  async setGameRoom(params: GameRoomDto): Promise<GameRoomDto> {
-    try {
-      if (params.challengedUserScore == null) {
+  async setGameRoom(params: GameRoomDto,isChallenger:boolean): Promise<GameRoomDto> {
+      if (isChallenger) {
         await this.network.updateDocument(
           FirebaseColumns.GAME_ROOMS,
           params.gameId,
           {"challengerUserScore":params.challengerUserScore}
         );
-        await this.setIsGameRoomDone(params.gameId);
       } else {
         await this.network.updateDocument(
           FirebaseColumns.GAME_ROOMS,
           params.gameId,
           {"challengedUserScore":params.challengedUserScore}
         );
-        await this.setIsGameRoomDone(params.gameId);
       }
-      
       return params;
-    } catch (_) {
-    //We using catch for is document doesn't exist case
-      await this.network.setData(
+   
+  }
+
+
+
+
+async createGameRoom(params:GameRoomDto):Promise<GameRoomDto>{
+    await this.network.setData(
         params,
         FirebaseColumns.GAME_ROOMS,
         params.gameId
       );
-      await this.setIsGameRoomDone(params.gameId);
       return params;
-    }
-  }
-
-private async setIsGameRoomDone(roomId:string){
-    const rawData = await this.network.getDoc(FirebaseColumns.GAME_ROOMS,roomId);
-    const gameRoom:GameRoomDto = new GameRoomDto().fromJsonWithReturn(rawData.data())
-    if(gameRoom.challengedUserScore!=null&&gameRoom.challengerUserScore!=null){
-        this.gameSocket.handleGameRoomDone(gameRoom.gameId);
-    }
 }
 
 async getGameRoom(params:DuelInviteDto):Promise<GameRoomDto>{

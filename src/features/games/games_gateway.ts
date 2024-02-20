@@ -1,9 +1,12 @@
-import { MessageBody,OnGatewayDisconnect,SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { MessageBody,SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from 'socket.io';
 import { DuelInviteDto } from "src/features/games/dto/duel_invite.dto";
+import { GameRoomDto } from "./dto/game_room.dto";
+import { GamesService } from "./games.service";
 
 @WebSocketGateway()
 export class GamesGateway{
+
 
 @WebSocketServer() 
 server:Server = new Server();
@@ -25,8 +28,5 @@ handleGameStarted(@MessageBody() body:DuelInviteDto){
     this.server.emit(body.gameId,body);
 }
 
-@SubscribeMessage("game_room_done")
-handleGameRoomDone(@MessageBody() body:string){
-this.server.emit(body,true);
-}
+
 } 

@@ -12,7 +12,7 @@ export declare class GamesService {
     createEvent(params: EventDto): Promise<EventDto>;
     deleteEvent(params: EventDto): Promise<EventDto>;
     startEvent(params: EventDto): Promise<EventDto>;
-    setGameRoom(params: GameRoomDto): Promise<GameRoomDto>;
-    private setIsGameRoomDone;
+    setGameRoom(params: GameRoomDto, isChallenger: boolean): Promise<GameRoomDto>;
+    createGameRoom(params: GameRoomDto): Promise<GameRoomDto>;
     getGameRoom(params: DuelInviteDto): Promise<GameRoomDto>;
 }

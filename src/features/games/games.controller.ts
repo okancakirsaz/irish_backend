@@ -44,10 +44,28 @@ export class GamesController {
      }
   }
 
-  @Post('set-game-room')
-  async setGameRoom(@Body() params:GameRoomDto){
+  @Post('create-game-room')
+  async createGameRoom(@Body() params:GameRoomDto){
     try {
-      return await this.service.setGameRoom(params);   
+      return await this.service.createGameRoom(params);   
+     } catch (error) {
+         throw Error(error);
+     }
+  }
+
+  @Post('set-game-room-challenged')
+  async setGameRoomChallenged(@Body() params:GameRoomDto){
+    try {
+      return await this.service.setGameRoom(params,false);   
+     } catch (error) {
+         throw Error(error);
+     }
+  }
+
+  @Post('set-game-room-challenger')
+  async setGameRoomChallenger(@Body() params:GameRoomDto){
+    try {
+      return await this.service.setGameRoom(params,true);   
      } catch (error) {
          throw Error(error);
      }

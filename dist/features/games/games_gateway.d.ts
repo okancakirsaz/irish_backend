@@ -5,5 +5,4 @@ export declare class GamesGateway {
     handleDuelInvite(body: DuelInviteDto): void;
     handleDuelAccepted(body: DuelInviteDto): void;
     handleGameStarted(body: DuelInviteDto): void;
-    handleGameRoomDone(body: string): void;
 }

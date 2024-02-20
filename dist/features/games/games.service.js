@@ -62,30 +62,18 @@ let GamesService = class GamesService {
             throw Error(error);
         }
     }
-    async setGameRoom(params) {
-        try {
-            if (params.challengedUserScore == null) {
-                await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengerUserScore": params.challengerUserScore });
-                await this.setIsGameRoomDone(params.gameId);
-            }
-            else {
-                await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengedUserScore": params.challengedUserScore });
-                await this.setIsGameRoomDone(params.gameId);
-            }
-            return params;
+    async setGameRoom(params, isChallenger) {
+        if (isChallenger) {
+            await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengerUserScore": params.challengerUserScore });
         }
-        catch (_) {
-            await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId);
-            await this.setIsGameRoomDone(params.gameId);
-            return params;
+        else {
+            await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengedUserScore": params.challengedUserScore });
         }
+        return params;
     }
-    async setIsGameRoomDone(roomId) {
-        const rawData = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, roomId);
-        const gameRoom = new game_room_dto_1.GameRoomDto().fromJsonWithReturn(rawData.data());
-        if (gameRoom.challengedUserScore != null && gameRoom.challengerUserScore != null) {
-            this.gameSocket.handleGameRoomDone(gameRoom.gameId);
-        }
+    async createGameRoom(params) {
+        await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId);
+        return params;
     }
     async getGameRoom(params) {
         const response = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId);
