@@ -15,9 +15,12 @@ const event_dto_1 = require("./dto/event.dto");
 const firebase_services_1 = require("../../core/firebase_services");
 const firebase_column_enums_1 = require("../../core/enums/firebase_column_enums");
 const web_socket_gateway_1 = require("../../core/web_socket_gateway");
+const game_room_dto_1 = require("./dto/game_room.dto");
+const games_gateway_1 = require("./games_gateway");
 let GamesService = class GamesService {
-    constructor(socket) {
+    constructor(socket, gameSocket) {
         this.socket = socket;
+        this.gameSocket = gameSocket;
         this.network = firebase_services_1.FirebaseServices.instance;
     }
     async getActiveEvents() {
@@ -59,10 +62,39 @@ let GamesService = class GamesService {
             throw Error(error);
         }
     }
+    async setGameRoom(params) {
+        try {
+            if (params.challengedUserScore == null) {
+                await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengerUserScore": params.challengerUserScore });
+                await this.setIsGameRoomDone(params.gameId);
+            }
+            else {
+                await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId, { "challengedUserScore": params.challengedUserScore });
+                await this.setIsGameRoomDone(params.gameId);
+            }
+            return params;
+        }
+        catch (_) {
+            await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId);
+            await this.setIsGameRoomDone(params.gameId);
+            return params;
+        }
+    }
+    async setIsGameRoomDone(roomId) {
+        const rawData = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, roomId);
+        const gameRoom = new game_room_dto_1.GameRoomDto().fromJsonWithReturn(rawData.data());
+        if (gameRoom.challengedUserScore != null && gameRoom.challengerUserScore != null) {
+            this.gameSocket.handleGameRoomDone(gameRoom.gameId);
+        }
+    }
+    async getGameRoom(params) {
+        const response = await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.GAME_ROOMS, params.gameId);
+        return new game_room_dto_1.GameRoomDto().fromJsonWithReturn(response.data());
+    }
 };
 exports.GamesService = GamesService;
 exports.GamesService = GamesService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [web_socket_gateway_1.SocketGateway])
+    __metadata("design:paramtypes", [web_socket_gateway_1.SocketGateway, games_gateway_1.GamesGateway])
 ], GamesService);
 //# sourceMappingURL=games.service.js.map

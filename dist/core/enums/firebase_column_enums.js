@@ -11,5 +11,6 @@ var FirebaseColumns;
     FirebaseColumns["SYSTEM_LOGS"] = "SYSTEM_LOGS";
     FirebaseColumns["ORDERS"] = "ORDERS";
     FirebaseColumns["ERRORS"] = "ERROR_LOGS";
+    FirebaseColumns["GAME_ROOMS"] = "GAME_ROOMS";
 })(FirebaseColumns || (exports.FirebaseColumns = FirebaseColumns = {}));
 //# sourceMappingURL=firebase_column_enums.js.map

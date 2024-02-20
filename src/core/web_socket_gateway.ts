@@ -1,8 +1,6 @@
 import { MessageBody,SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from 'socket.io';
-import { UserDataDto } from "src/features/auth/dto/user_data.dto";
 import { CurrentlyInIrishDto } from "src/features/community/dto/currently_in_irish.dto";
-import { DuelInviteDto } from "src/features/games/dto/duel_invite.dto";
 import { OrderResponseDto } from "src/features/order/dto/order_response.dto";
 
 @WebSocketGateway()
@@ -10,6 +8,8 @@ export class SocketGateway{
 
 @WebSocketServer() 
 server:Server = new Server();
+
+
 
 
 @SubscribeMessage("new_order")

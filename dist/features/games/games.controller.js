@@ -16,6 +16,8 @@ exports.GamesController = void 0;
 const common_1 = require("@nestjs/common");
 const games_service_1 = require("./games.service");
 const event_dto_1 = require("./dto/event.dto");
+const game_room_dto_1 = require("./dto/game_room.dto");
+const duel_invite_dto_1 = require("./dto/duel_invite.dto");
 let GamesController = class GamesController {
     constructor(service) {
         this.service = service;
@@ -52,6 +54,22 @@ let GamesController = class GamesController {
             throw Error(error);
         }
     }
+    async setGameRoom(params) {
+        try {
+            return await this.service.setGameRoom(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
+    async getGameRoom(params) {
+        try {
+            return await this.service.getGameRoom(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.GamesController = GamesController;
 __decorate([
@@ -81,6 +99,20 @@ __decorate([
     __metadata("design:paramtypes", [event_dto_1.EventDto]),
     __metadata("design:returntype", Promise)
 ], GamesController.prototype, "startEvent", null);
+__decorate([
+    (0, common_1.Post)('set-game-room'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [game_room_dto_1.GameRoomDto]),
+    __metadata("design:returntype", Promise)
+], GamesController.prototype, "setGameRoom", null);
+__decorate([
+    (0, common_1.Post)('get-game-room'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [duel_invite_dto_1.DuelInviteDto]),
+    __metadata("design:returntype", Promise)
+], GamesController.prototype, "getGameRoom", null);
 exports.GamesController = GamesController = __decorate([
     (0, common_1.Controller)("games"),
     __metadata("design:paramtypes", [games_service_1.GamesService])

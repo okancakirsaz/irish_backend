@@ -6,5 +6,6 @@ export enum FirebaseColumns{
     CUSTOMERS="CUSTOMERS",
     SYSTEM_LOGS="SYSTEM_LOGS",
     ORDERS="ORDERS",
-    ERRORS="ERROR_LOGS"
+    ERRORS="ERROR_LOGS",
+    GAME_ROOMS="GAME_ROOMS"
 }

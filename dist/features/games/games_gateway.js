@@ -21,13 +21,16 @@ let GamesGateway = class GamesGateway {
         this.server = new socket_io_1.Server();
     }
     handleDuelInvite(body) {
-        this.server.emit(body.challengedUserId, body);
+        this.server.emit(`Duel Invite:${body.challengedUserId}`, body);
     }
     handleDuelAccepted(body) {
-        this.server.emit(body.challengerUserId, body);
+        this.server.emit(`Duel Response:${body.challengerUserId}`, body);
     }
     handleGameStarted(body) {
         this.server.emit(body.gameId, body);
+    }
+    handleGameRoomDone(body) {
+        this.server.emit(body, true);
     }
 };
 exports.GamesGateway = GamesGateway;
@@ -56,6 +59,13 @@ __decorate([
     __metadata("design:paramtypes", [duel_invite_dto_1.DuelInviteDto]),
     __metadata("design:returntype", void 0)
 ], GamesGateway.prototype, "handleGameStarted", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("game_room_done"),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], GamesGateway.prototype, "handleGameRoomDone", null);
 exports.GamesGateway = GamesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)()
 ], GamesGateway);

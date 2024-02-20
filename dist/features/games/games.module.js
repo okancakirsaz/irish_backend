@@ -11,12 +11,13 @@ const common_1 = require("@nestjs/common");
 const games_service_1 = require("./games.service");
 const games_controller_1 = require("./games.controller");
 const web_socket_gateway_1 = require("../../core/web_socket_gateway");
+const games_gateway_1 = require("./games_gateway");
 let GamesModule = class GamesModule {
 };
 exports.GamesModule = GamesModule;
 exports.GamesModule = GamesModule = __decorate([
     (0, common_1.Module)({
-        providers: [games_service_1.GamesService, web_socket_gateway_1.SocketGateway],
+        providers: [games_service_1.GamesService, games_gateway_1.GamesGateway, web_socket_gateway_1.SocketGateway],
         controllers: [games_controller_1.GamesController]
     })
 ], GamesModule);

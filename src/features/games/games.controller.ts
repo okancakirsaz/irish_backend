@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { GamesService } from "./games.service";
 import { EventDto } from "./dto/event.dto";
+import { GameRoomDto } from "./dto/game_room.dto";
+import { DuelInviteDto } from "./dto/duel_invite.dto";
 
 @Controller("games")
 export class GamesController {
@@ -41,5 +43,24 @@ export class GamesController {
          throw Error(error);
      }
   }
+
+  @Post('set-game-room')
+  async setGameRoom(@Body() params:GameRoomDto){
+    try {
+      return await this.service.setGameRoom(params);   
+     } catch (error) {
+         throw Error(error);
+     }
+  }
+
+  @Post('get-game-room')
+  async getGameRoom(@Body() params:DuelInviteDto){
+    try {
+      return await this.service.getGameRoom(params);   
+     } catch (error) {
+         throw Error(error);
+     }
+  }
+
 }
  

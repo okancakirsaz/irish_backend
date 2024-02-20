@@ -1,5 +1,7 @@
 import { GamesService } from "./games.service";
 import { EventDto } from "./dto/event.dto";
+import { GameRoomDto } from "./dto/game_room.dto";
+import { DuelInviteDto } from "./dto/duel_invite.dto";
 export declare class GamesController {
     private readonly service;
     constructor(service: GamesService);
@@ -7,4 +9,6 @@ export declare class GamesController {
     createEvent(params: EventDto): Promise<EventDto>;
     deleteEvent(params: EventDto): Promise<EventDto>;
     startEvent(params: EventDto): Promise<EventDto>;
+    setGameRoom(params: GameRoomDto): Promise<GameRoomDto>;
+    getGameRoom(params: DuelInviteDto): Promise<GameRoomDto>;
 }
