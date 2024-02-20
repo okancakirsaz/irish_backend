@@ -22,6 +22,7 @@ import {
   signInWithEmailAndPassword,
 } from "@firebase/auth";
 import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
+import { UserScoreDto } from "./dto/user_score.dto";
 
 @Injectable()
 export class UserService {
@@ -236,5 +237,17 @@ export class UserService {
         break;
     }
     return response;
+  }
+
+
+  async updateUserScore(params:UserScoreDto):Promise<UserScoreDto>{
+    const user = (await this.network.getDoc(FirebaseColumns.USERS,params.userId)).data();
+    const userAsModel:UserDataDto = new UserDataDto().fromJsonWithReturn(user);
+    let userScores:UserScoreDto[] = userAsModel.scores;
+    userScores.push(params); 
+    
+    await this.network.updateDocument(FirebaseColumns.USERS,params.userId,{"scores":userScores});
+
+    return params;
   }
 }

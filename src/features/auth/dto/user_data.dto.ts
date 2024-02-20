@@ -1,5 +1,6 @@
 import { PostDto } from "src/features/community/dto/post.dto"
 import { FavoriteFoodDto } from "src/features/user/dto/favorite_food.dto"
+import { UserScoreDto } from "src/features/user/dto/user_score.dto"
 import { UserSettingsDto } from "src/features/user/dto/user_settings.dto"
 
 export class UserDataDto{
@@ -13,8 +14,7 @@ export class UserDataDto{
     isUserBanned:boolean
     phoneNumber:string
     posts:Array<PostDto>
-    //TODO: Scores DTO here
-    scores:Array<any>
+    scores:Array<UserScoreDto>
     favoriteFoods:Array<FavoriteFoodDto>
     isAnonym:boolean
 

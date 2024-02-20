@@ -5,6 +5,7 @@ import { ChangeProfilePhotoDto } from "./dto/change_profile_photo.dto";
 import { UidReqDto } from "./dto/uid_req.dto";
 import { BooleanSingleResponseDto } from "./dto/boolean_single_response.dto";
 import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
+import { UserScoreDto } from "./dto/user_score.dto";
 export declare class UserService {
     private readonly network;
     getUserDatasFromToken(token: string, dataType: IUserDataTypes): Promise<PostDto[]>;
@@ -23,4 +24,5 @@ export declare class UserService {
     private getUserForDelete;
     private deleteUserFromAuthService;
     checkIsUserBanned(params: UidReqDto): Promise<BooleanSingleResponseDto>;
+    updateUserScore(params: UserScoreDto): Promise<UserScoreDto>;
 }

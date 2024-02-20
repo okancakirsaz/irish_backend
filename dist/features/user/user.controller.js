@@ -20,6 +20,7 @@ const user_settings_dto_1 = require("./dto/user_settings.dto");
 const change_profile_photo_dto_1 = require("./dto/change_profile_photo.dto");
 const uid_req_dto_1 = require("./dto/uid_req.dto");
 const post_delete_req_dto_1 = require("./dto/post_delete_req.dto");
+const user_score_dto_1 = require("./dto/user_score.dto");
 let UserController = class UserController {
     constructor(service) {
         this.service = service;
@@ -104,6 +105,14 @@ let UserController = class UserController {
             throw Error(error);
         }
     }
+    async updateUserScores(params) {
+        try {
+            return await this.service.updateUserScore(params);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -177,6 +186,13 @@ __decorate([
     __metadata("design:paramtypes", [uid_req_dto_1.UidReqDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "checkIsUserBanned", null);
+__decorate([
+    (0, common_1.Post)('update-user-score'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_score_dto_1.UserScoreDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateUserScores", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])

@@ -177,6 +177,14 @@ let UserService = class UserService {
         }
         return response;
     }
+    async updateUserScore(params) {
+        const user = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.USERS, params.userId)).data();
+        const userAsModel = new user_data_dto_1.UserDataDto().fromJsonWithReturn(user);
+        let userScores = userAsModel.scores;
+        userScores.push(params);
+        await this.network.updateDocument(firebase_column_enums_1.FirebaseColumns.USERS, params.userId, { "scores": userScores });
+        return params;
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

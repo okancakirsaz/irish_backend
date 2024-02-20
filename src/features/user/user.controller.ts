@@ -5,6 +5,7 @@ import { UserSettingsDto } from "./dto/user_settings.dto";
 import { ChangeProfilePhotoDto } from "./dto/change_profile_photo.dto";
 import { UidReqDto } from "./dto/uid_req.dto";
 import { PostDeleteReqDto } from "./dto/post_delete_req.dto";
+import { UserScoreDto } from "./dto/user_score.dto";
 
 @Controller("user")
 export class UserController {
@@ -92,6 +93,15 @@ export class UserController {
   async checkIsUserBanned(@Body() params:UidReqDto){
     try {
       return await this.service.checkIsUserBanned(params);
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Post('update-user-score')
+  async updateUserScores(@Body() params:UserScoreDto){
+    try {
+      return await this.service.updateUserScore(params);
     } catch (error) {
       throw Error(error);
     }
