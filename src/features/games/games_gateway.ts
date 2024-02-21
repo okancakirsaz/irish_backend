@@ -25,7 +25,7 @@ handleDuelAccepted(@MessageBody() body:DuelInviteDto){
 
 @SubscribeMessage("game_started")
 handleGameStarted(@MessageBody() body:DuelInviteDto){
-    this.server.emit(body.gameId,body);
+    this.server.emit(`Game Started:${body.gameId}`,body);
 }
 
 

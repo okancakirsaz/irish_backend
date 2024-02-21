@@ -27,7 +27,7 @@ let GamesGateway = class GamesGateway {
         this.server.emit(`Duel Response:${body.challengerUserId}`, body);
     }
     handleGameStarted(body) {
-        this.server.emit(body.gameId, body);
+        this.server.emit(`Game Started:${body.gameId}`, body);
     }
 };
 exports.GamesGateway = GamesGateway;
