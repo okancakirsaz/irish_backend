@@ -17,6 +17,15 @@ async getMenu():Promise<MenuItemDto[]>{
    }
 }
 
+@Post("get-menu-item")
+async getMenuItem(@Body() params:any):Promise<MenuItemDto>{
+    try {
+        return await this.service.getMenuItem(params["itemName"]);
+   } catch (error) {
+    throw Error(error);
+   }
+}
+
 @Post("create-element")
 async createMenuElement(@Body() params:MenuItemDto):Promise<MenuItemDto>{
     try {

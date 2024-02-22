@@ -5,6 +5,7 @@ export class OrderResponseDto{
     userId:string
     timestamp:string
     isOrderReady:boolean
+    duelWinner?:string
 
     toJson():Record<string,any>{
         return {
@@ -13,7 +14,8 @@ export class OrderResponseDto{
             "totalPrice":this.totalPrice,
             "userId":this.userId,
             "timestamp":this.timestamp,
-            "isOrderReady":this.isOrderReady
+            "isOrderReady":this.isOrderReady,
+            "duelWinner":this.duelWinner,
         }
     }
 }

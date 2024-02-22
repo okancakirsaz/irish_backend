@@ -9,7 +9,8 @@ class OrderResponseDto {
             "totalPrice": this.totalPrice,
             "userId": this.userId,
             "timestamp": this.timestamp,
-            "isOrderReady": this.isOrderReady
+            "isOrderReady": this.isOrderReady,
+            "duelWinner": this.duelWinner,
         };
     }
 }

@@ -4,6 +4,7 @@ export declare class MenuController {
     private readonly service;
     constructor(service: MenuService);
     getMenu(): Promise<MenuItemDto[]>;
+    getMenuItem(params: any): Promise<MenuItemDto>;
     createMenuElement(params: MenuItemDto): Promise<MenuItemDto>;
     deleteMenuElement(params: MenuItemDto): Promise<MenuItemDto>;
     updateMenuElement(params: MenuItemDto): Promise<MenuItemDto>;

@@ -62,9 +62,10 @@ let OrderService = class OrderService {
         response.timestamp = params.timestamp;
         response.isOrderReady = false;
         response.userId = params.userId;
-        response.orderId = await this.createOrderNumber();
+        response.duelWinner = params.duelWinner,
+            response.orderId = await this.createOrderNumber();
         await this.network.setData(response.toJson(), firebase_column_enums_1.FirebaseColumns.ORDERS, `${response.orderId}`);
-        if (params.userId != "admin-panel") {
+        if (params.userId != "admin-panel" && params.duelWinner == null) {
             await this.updateUserFavoriteFoods(params);
             await this.updateActiveCustomersList(params.userId);
         }

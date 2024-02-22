@@ -28,6 +28,14 @@ let MenuController = class MenuController {
             throw Error(error);
         }
     }
+    async getMenuItem(params) {
+        try {
+            return await this.service.getMenuItem(params["itemName"]);
+        }
+        catch (error) {
+            throw Error(error);
+        }
+    }
     async createMenuElement(params) {
         try {
             return await this.service.createMenuElement(params);
@@ -60,6 +68,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MenuController.prototype, "getMenu", null);
+__decorate([
+    (0, common_1.Post)("get-menu-item"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MenuController.prototype, "getMenuItem", null);
 __decorate([
     (0, common_1.Post)("create-element"),
     __param(0, (0, common_1.Body)()),

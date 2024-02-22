@@ -73,6 +73,11 @@ let MenuService = class MenuService {
             throw Error(error);
         }
     }
+    async getMenuItem(itemName) {
+        const rawData = (await this.network.getDoc(firebase_column_enums_1.FirebaseColumns.MENU, itemName)).data();
+        const response = new menu_item_dto_1.MenuItemDto().fromJsonWithReturn(rawData);
+        return response;
+    }
 };
 exports.MenuService = MenuService;
 exports.MenuService = MenuService = __decorate([

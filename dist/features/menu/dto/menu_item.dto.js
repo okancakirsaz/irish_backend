@@ -8,6 +8,14 @@ class MenuItemDto {
         this.image = json['image'];
         this.materials = json['materials'];
     }
+    fromJsonWithReturn(json) {
+        const object = new MenuItemDto();
+        object.name = json['name'];
+        object.price = json['price'];
+        object.image = json['image'];
+        object.materials = json['materials'];
+        return object;
+    }
     toJson() {
         return {
             "name": this.name,

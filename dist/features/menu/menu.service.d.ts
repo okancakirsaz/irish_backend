@@ -5,4 +5,5 @@ export declare class MenuService {
     createMenuElement(params: MenuItemDto): Promise<MenuItemDto>;
     updateMenuElement(params: MenuItemDto): Promise<MenuItemDto>;
     deleteMenuElement(params: MenuItemDto): Promise<MenuItemDto>;
+    getMenuItem(itemName: string): Promise<MenuItemDto>;
 }

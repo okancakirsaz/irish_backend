@@ -79,4 +79,10 @@ export class MenuService {
       //TODO: Make error log system
     }
   }
+
+  async getMenuItem(itemName:string):Promise<MenuItemDto>{
+    const rawData = (await this.network.getDoc(FirebaseColumns.MENU,itemName)).data();
+    const response:MenuItemDto = new MenuItemDto().fromJsonWithReturn(rawData);
+    return response;
+  }
 }

@@ -3,4 +3,5 @@ export declare class OrderRequestDto {
     totalPrice: number;
     timestamp: string;
     userId: string;
+    duelWinner?: string;
 }
