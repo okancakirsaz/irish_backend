@@ -26,8 +26,10 @@ let CommunityService = class CommunityService {
     async sharePost(params) {
         params.apiImage = await this.network.setImageToStorage(params.imageAsByte, params.id, "posts");
         params.imageAsByte = null;
-        await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.POSTS, params.id);
-        await this.savePostToUserData(params);
+        if (params.apiImage != "Nude Content") {
+            await this.network.setData(params, firebase_column_enums_1.FirebaseColumns.POSTS, params.id);
+            await this.savePostToUserData(params);
+        }
         return params;
     }
     async savePostToUserData(params) {

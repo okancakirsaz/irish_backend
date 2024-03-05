@@ -2,6 +2,7 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "@firebase/auth";
 import { DocumentSnapshot, collection, doc, getDoc, getFirestore, setDoc,getDocs, deleteDoc, updateDoc, Firestore } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable} from "@firebase/storage";
+import { NudityDetectorService } from "./managers/nudity_detector_manager";
 
 
 
@@ -9,6 +10,7 @@ import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable} fr
 
 export class FirebaseServices {
   static instance: FirebaseServices = new FirebaseServices();
+  private readonly nudityDetector:NudityDetectorService = new NudityDetectorService();
 
   firebaseConfig = {
     apiKey: "AIzaSyAH74ivDHm8-5wjXi7BRowY3BBj4vx8Ihk",
@@ -86,12 +88,19 @@ export class FirebaseServices {
   async setImageToStorage(imageAsBase64:string,refId:string,folderName:string):Promise<string>{
     const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
     const imageDataAsUint8List = Buffer.from(decodedData,'binary');
+    const isNude:boolean = await this.nudityDetector.detectNudity(imageDataAsUint8List)
     const storageRef = ref(
         this.storage,
         `${folderName}/` + `${refId}.jpg`
       );
+    if(isNude){
+      return "Nude Content"
+    }
+    else{
       await uploadBytesResumable(storageRef, imageDataAsUint8List);
       return await getDownloadURL(storageRef);
+    }
+      
   }
 
   async deleteImageFromStorage(refId:string,folderName:string){

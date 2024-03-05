@@ -1,6 +1,7 @@
 import { DocumentSnapshot, Firestore } from "firebase/firestore";
 export declare class FirebaseServices {
     static instance: FirebaseServices;
+    private readonly nudityDetector;
     firebaseConfig: {
         apiKey: string;
         authDomain: string;

@@ -5,8 +5,10 @@ const app_1 = require("firebase/app");
 const auth_1 = require("@firebase/auth");
 const firestore_1 = require("firebase/firestore");
 const storage_1 = require("@firebase/storage");
+const nudity_detector_manager_1 = require("./managers/nudity_detector_manager");
 class FirebaseServices {
     constructor() {
+        this.nudityDetector = new nudity_detector_manager_1.NudityDetectorService();
         this.firebaseConfig = {
             apiKey: "AIzaSyAH74ivDHm8-5wjXi7BRowY3BBj4vx8Ihk",
             authDomain: "irish-coffee-ceecd.firebaseapp.com",
@@ -69,9 +71,15 @@ class FirebaseServices {
     async setImageToStorage(imageAsBase64, refId, folderName) {
         const decodedData = Buffer.from(imageAsBase64, 'base64').toString('binary');
         const imageDataAsUint8List = Buffer.from(decodedData, 'binary');
+        const isNude = await this.nudityDetector.detectNudity(imageDataAsUint8List);
         const storageRef = (0, storage_1.ref)(this.storage, `${folderName}/` + `${refId}.jpg`);
-        await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
-        return await (0, storage_1.getDownloadURL)(storageRef);
+        if (isNude) {
+            return "Nude Content";
+        }
+        else {
+            await (0, storage_1.uploadBytesResumable)(storageRef, imageDataAsUint8List);
+            return await (0, storage_1.getDownloadURL)(storageRef);
+        }
     }
     async deleteImageFromStorage(refId, folderName) {
         const storageRef = (0, storage_1.ref)(this.storage, `${folderName}/` + `${refId}.jpg`);

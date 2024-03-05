@@ -46,8 +46,10 @@ let UserService = class UserService {
     }
     async changeProfilePhoto(params) {
         const imageRef = await this.network.setImageToStorage(params.imageAsByte, params.uid, "profilePhotos");
-        params.profileImage = imageRef;
-        await this.setProfileImageToDb(params.uid, params.profileImage);
+        if (imageRef != "Nude Content") {
+            params.profileImage = imageRef;
+            await this.setProfileImageToDb(params.uid, params.profileImage);
+        }
         return params;
     }
     async deleteProfileImage(params) {

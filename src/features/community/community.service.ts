@@ -8,6 +8,7 @@ import { GetMorePostDto } from "./dto/get_more_posts_req.dto";
 import { LiteUserDto } from "./dto/lite_user.dto";
 import { CurrentlyInIrishDto } from "./dto/currently_in_irish.dto";
 import { SocketGateway } from "src/core/web_socket_gateway";
+import { NudityDetectorService } from "src/core/managers/nudity_detector_manager";
 
 @Injectable()
 export class CommunityService {
@@ -20,8 +21,10 @@ export class CommunityService {
   async sharePost(params:PostDto){
       params.apiImage =await this.network.setImageToStorage(params.imageAsByte,params.id,"posts");
       params.imageAsByte=null;
-      await this.network.setData(params,FirebaseColumns.POSTS,params.id);
-      await this.savePostToUserData(params);
+      if(params.apiImage!="Nude Content"){
+        await this.network.setData(params,FirebaseColumns.POSTS,params.id);
+        await this.savePostToUserData(params);
+      }
       return params
   }
 

@@ -72,8 +72,11 @@ export class UserService {
       params.uid,
       "profilePhotos"
     );
+    if(imageRef!="Nude Content"){
     params.profileImage = imageRef;
     await this.setProfileImageToDb(params.uid, params.profileImage);
+    }
+    
     return params;
   }
 
